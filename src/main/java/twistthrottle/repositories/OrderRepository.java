@@ -7,6 +7,5 @@ import twistthrottle.models.entities.Order;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Long> {
-    Order findOrderById(int id);
-    Order findOrderByUserEmail(String email);
+
 }
