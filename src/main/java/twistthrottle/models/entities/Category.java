@@ -1,6 +1,10 @@
 package twistthrottle.models.entities;
 import twistthrottle.models.entities.enums.categoryType;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 public class Category extends BaseEntity {
@@ -12,7 +16,8 @@ public class Category extends BaseEntity {
     private categoryType categoryType;
     @Column(length = 512)
     private String description;
-
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
     private String imageUrl;
 
     public String getName() {
