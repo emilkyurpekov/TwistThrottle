@@ -1,0 +1,59 @@
+package twistthrottle.models.entities;
+import twistthrottle.models.entities.enums.categoryType;
+import jakarta.persistence.*;
+@Entity
+@Table(name = "categories")
+public class Category extends BaseEntity {
+
+    @Column(nullable = false, unique = true)
+    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private categoryType categoryType;
+    @Column(length = 512)
+    private String description;
+
+    private String imageUrl;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public twistthrottle.models.entities.enums.categoryType getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(twistthrottle.models.entities.enums.categoryType categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Category() {
+    }
+
+    public Category(String name, twistthrottle.models.entities.enums.categoryType categoryType, String description, String imageUrl) {
+        this.name = name;
+        this.categoryType = categoryType;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
+}
