@@ -7,6 +7,8 @@ import twistthrottle.models.entities.enums.motorcycleType;
 @Table(name = "motorcycles")
 public class Motorcycle extends BaseEntity{
     @Column(nullable = false)
+    private String make;
+    @Column(nullable = false)
     private String model;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -15,6 +17,8 @@ public class Motorcycle extends BaseEntity{
     private int horsepower;
     @Column(nullable = false)
     private double weight;
+    private String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
