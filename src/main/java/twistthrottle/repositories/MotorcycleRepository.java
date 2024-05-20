@@ -9,5 +9,7 @@ public interface MotorcycleRepository  extends JpaRepository<Motorcycle,Long> {
     List<Motorcycle> findByMake(String make);
     List<Motorcycle> findByModel(String model);
     List<Motorcycle> findByYear(int year);
+    List<Motorcycle> findByHorsepowerGreaterThan(int horsepower);
+    List<Motorcycle> findByHorsepowerLessThan(int horsepower);
     List<Motorcycle> findByCategory(String category);
 }
