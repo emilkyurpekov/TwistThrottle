@@ -15,6 +15,8 @@ public class Product extends BaseEntity{
     @Column(nullable = false)
     private productType productType;
     private BigDecimal price;
+    @Column(nullable = false)
+    private int stock;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetails> orderDetails = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
