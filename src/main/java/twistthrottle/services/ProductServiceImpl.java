@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import twistthrottle.models.entities.Product;
-import twistthrottle.repositories.MotorcycleRepository;
 import twistthrottle.repositories.ProductRepository;
 @Service
 public class ProductServiceImpl implements ProductService{
