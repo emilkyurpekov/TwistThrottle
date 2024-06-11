@@ -35,13 +35,13 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> findByCategory(String category) {
-        return null;
+    public List<Product> findAllByCategory(String category) {
+        return productRepository.findAllByCategory(category);
     }
 
     @Override
     public List<Product> findAllByPriceBetween(int minPrice, int maxPrice) {
-        return null;
+        return productRepository.findAllByPriceBetween(minPrice,maxPrice);
     }
 
     @Override

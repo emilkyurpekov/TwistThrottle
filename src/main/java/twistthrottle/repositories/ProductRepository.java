@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     Product save(Product product);
     void delete(Product product);
     List<Product> findAllByProductType(String productType);
-    List<Product> findByCategory(String category);
+    List<Product> findAllByCategory(String category);
     List<Product> findAllByPriceBetween(int minPrice, int maxPrice);
     List<Product> findProductByNameContaining(String name);
     List<Product> findByCompatibleModels(String model);
