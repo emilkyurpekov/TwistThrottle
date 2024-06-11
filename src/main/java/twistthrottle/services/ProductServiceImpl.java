@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import twistthrottle.models.entities.Product;
 import twistthrottle.repositories.ProductRepository;
+
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
@@ -25,4 +28,35 @@ public class ProductServiceImpl implements ProductService{
         product.setStock(newStock);
         productRepository.save(product);
     }
+
+    @Override
+    public List<Product> findAllByProductType(String productType) {
+        return productRepository.findAllByProductType(productType);
+    }
+
+    @Override
+    public List<Product> findByCategory(String category) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findAllByPriceBetween(int minPrice, int maxPrice) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findProductByNameContaining(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findByCompatibleModels(String model) {
+        return null;
+    }
+
+    @Override
+    public List<Product> findAllByOrderByPriceDesc() {
+        return null;
+    }
+
 }
