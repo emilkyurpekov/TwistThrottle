@@ -13,7 +13,7 @@ public class Order extends BaseEntity{
     //fields:
     @Temporal(TemporalType.DATE)
     @Column(name = "order_date", nullable = false)
-    private Date date;
+    private Date orderDate;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private orderStatus orderStatus;
@@ -33,12 +33,12 @@ public class Order extends BaseEntity{
     private User user;
 
 
-    public Date getDate() {
-        return date;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public orderStatus getOrderStatus() {
@@ -93,7 +93,7 @@ public class Order extends BaseEntity{
     }
 
     public Order(Date date, orderStatus orderStatus, double totalPrice, paymentMethod paymentMethod, String shippingAddress, String billingAddress, List<OrderDetails> orderDetails, User user) {
-        this.date = date;
+        this.orderDate = date;
         this.orderStatus = orderStatus;
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;

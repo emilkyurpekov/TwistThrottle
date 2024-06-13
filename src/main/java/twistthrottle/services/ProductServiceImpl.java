@@ -3,7 +3,9 @@ package twistthrottle.services;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
+import twistthrottle.models.entities.enums.productType;
 import twistthrottle.repositories.ProductRepository;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
+
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -19,7 +22,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     @Transactional
-    public void updateProductStock(Long productId, int newStock) {
+    public void updateProductStock(Long productId, int newStock)throws IllegalStateException, IllegalArgumentException {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new IllegalStateException("Product not found"));
         if (newStock < 0) {
@@ -30,12 +33,12 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> findAllByProductType(String productType) {
+    public List<Product> findAllByProductType(productType productType) {
         return productRepository.findAllByProductType(productType);
     }
 
     @Override
-    public List<Product> findAllByCategory(String category) {
+    public List<Product> findAllByCategory(Category category) {
         return productRepository.findAllByCategory(category);
     }
 
@@ -45,18 +48,12 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> findProductByNameContaining(String name) {
-        return null;
+    public List<Product> findProductByName(String name) {
+       return productRepository.findProductByName(name);
     }
-
-    @Override
-    public List<Product> findByCompatibleModels(String model) {
-        return null;
-    }
-
     @Override
     public List<Product> findAllByOrderByPriceDesc() {
-        return null;
+        return productRepository.findAllByOrderByPriceDesc();
     }
 
 }

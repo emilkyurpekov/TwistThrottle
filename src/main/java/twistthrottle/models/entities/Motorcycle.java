@@ -10,6 +10,7 @@ public class Motorcycle extends BaseEntity{
     private String make;
     @Column(nullable = false)
     private String model;
+    private int year;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private motorcycleType motorcycleType;

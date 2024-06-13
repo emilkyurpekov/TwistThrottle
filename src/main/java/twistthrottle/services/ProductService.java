@@ -1,17 +1,19 @@
 package twistthrottle.services;
 
 
+import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
+import twistthrottle.models.entities.enums.productType;
 
 import java.util.List;
 
 public interface ProductService {
 
+
     void updateProductStock(Long productId, int newStock);
-    List<Product> findAllByProductType(String productType);
-    List<Product> findAllByCategory(String category);
+    List<Product> findAllByProductType(productType productType);
+    List<Product> findAllByCategory(Category category);
     List<Product> findAllByPriceBetween(int minPrice, int maxPrice);
-    List<Product> findProductByNameContaining(String name);
-    List<Product> findByCompatibleModels(String model);
+    List<Product> findProductByName(String name);
     List<Product> findAllByOrderByPriceDesc();
 }
