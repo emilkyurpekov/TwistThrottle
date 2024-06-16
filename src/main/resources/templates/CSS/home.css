@@ -5,7 +5,7 @@ body{
 .twist-header {
     background-color: black;
     border: 1px solid black;
-    height: 50px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
