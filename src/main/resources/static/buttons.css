@@ -1,0 +1,43 @@
+.button {
+    display: inline-block;
+    padding: 3px 5px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-top: 3px;
+    transition: background-color 0.5s ease;
+    font-size: 15px
+
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.buttons-right {
+    display: flex;
+}
+p{
+    padding: 5px;
+}
+.buttons-right a {
+    display: inline-block;
+    padding: 2px 5px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 3px;
+    transition: background-color 0.5s ease;
+}
+
+.button:hover,
+.buttons-right a:hover {
+    background-color: darkred;
+}
