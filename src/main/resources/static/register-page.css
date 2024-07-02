@@ -1,0 +1,62 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+.reg-header {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 1px;
+    font-size: 24px;
+}
+
+.form-container {
+    color: black;
+    border-radius: 5px;
+    border-color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Make form take the full width of its container */
+}
+
+form label, form input {
+    margin: 3px 0;
+    width: 100%; /* Make labels and inputs take the full width */
+}
+label {
+    text-align: center;
+    width: 100%;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="confirm-password"]{
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+    width: auto;
+}
+
+input[type="submit"] {
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
