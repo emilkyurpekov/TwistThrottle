@@ -27,10 +27,11 @@ form {
     display: flex;
     flex-direction: column;
     width: 100%; /* Make form take the full width of its container */
+    align-items: center;
 }
 
 form label, form input {
-    margin: 3px 0;
+    margin: 2px 0;
     width: 100%; /* Make labels and inputs take the full width */
 }
 label {
@@ -42,10 +43,10 @@ input[type="email"],
 input[type="password"],
 input[type="confirm-password"]{
     padding: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border: 1px solid black;
     border-radius: 6px;
-    width: auto;
+    width: 200px;
 }
 
 input[type="submit"] {
@@ -55,8 +56,14 @@ input[type="submit"] {
     color: white;
     border-radius: 4px;
     cursor: pointer;
+    width: 60px;
+    justify-items: center;
 }
-
+.submit-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 input[type="submit"]:hover {
     background-color: #45a049;
 }
