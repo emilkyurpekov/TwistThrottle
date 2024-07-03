@@ -46,7 +46,7 @@ input[type="confirm-password"]{
     margin-bottom: 5px;
     border: 1px solid black;
     border-radius: 6px;
-    width: 200px;
+    width: 250px;
 }
 
 input[type="submit"] {
@@ -63,6 +63,7 @@ input[type="submit"] {
     display: flex;
     justify-content: center;
     width: 100%;
+    margin-bottom: 7px;
 }
 input[type="submit"]:hover {
     background-color: #45a049;
