@@ -2,37 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <link rel="stylesheet" href="/register-page.css">
+    <link rel="stylesheet" href="/buttons.css">
     <meta charset="UTF-8">
 
     <title>Register</title>
 </head>
 <body>
+<div class="container">
 <div class="reg-header">
     <header>
         <h1>Welcome to TwistThrottle</h1>
-        <h2>Please register below</h2>
+        <p>Please register below</p>
     </header>
 </div>
-<div class="form-container">
-    <form th:action="@{/register}" method="post">
-
-        <label for="firstName">First Name:</label><br>
-        <input type="text" id = firstName name="firstName" placeholder="John" required><br>
-        <label for="lastName">Last Name:</label><br>
-        <input type="text" id = lastName name="lastName" placeholder="Doe" required><br>
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" placeholder="johndoe1" required><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" placeholder="e.g. john.doe@example.com" required ><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" placeholder="Must contain at least 8 symbols"><br><br>
-        <label for="password">Confirm Password:</label><br>
-        <input type="password" id="confirm-password" name="password" placeholder="Repeat password" required><br><br>
-        <div class="submit-container">
-            <input type="submit" value="Submit">
+    <div class="menu">
+        <div class="buttons-left">
+            <a href="/home" class="button">Home</a>
+            <a href="/about" class="button">About</a>
+            <a href="/register" class="button">Register</a>
         </div>
-    </form>
-</div>
+    <div class="form-container">
+        <form th:action="@{/register}" method="post">
+
+            <label for="firstName">First Name:</label><br>
+            <input type="text" id = firstName name="firstName" placeholder="John" required><br>
+            <label for="lastName">Last Name:</label><br>
+            <input type="text" id = lastName name="lastName" placeholder="Doe" required><br>
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" placeholder="johndoe1" required><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" placeholder="e.g. john.doe@example.com" required ><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" placeholder="Must contain at least 8 symbols"><br><br>
+            <label for="confirm-password">Confirm Password:</label><br>
+            <input type="password" id="confirm-password" name="password" placeholder="Repeat password" required><br>
+            <div class="submit-container">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
 
 </body>
 </html>

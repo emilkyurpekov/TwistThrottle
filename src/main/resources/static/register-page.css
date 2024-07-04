@@ -5,28 +5,40 @@ body, html {
 }
 .reg-header {
     background-color: black;
-    color: white;
-    text-align: center;
-    padding: 1px;
-    font-size: 24px;
+    border: 1px solid black;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:8px;
+}
+.reg-header h1 {
+    color: whitesmoke;
+
+}
+.reg-header p{
+    color: whitesmoke;
+    font-size: 8px;
 }
 
 .form-container {
+    padding-top: 20px;
     color: black;
     border-radius: 5px;
     border-color: black;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     max-width: 400px;
-    margin: 0 auto;
+    margin: 70px auto 0;
+
 }
 
 form {
     display: flex;
     flex-direction: column;
-    width: 100%; /* Make form take the full width of its container */
+    width: 100%;
     align-items: center;
 }
 
