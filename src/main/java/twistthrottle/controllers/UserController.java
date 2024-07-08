@@ -1,10 +1,9 @@
 package twistthrottle.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import twistthrottle.models.entities.User;
 
 @Controller
 public class UserController {
@@ -12,6 +11,12 @@ public class UserController {
     @GetMapping("/register")
     public String register() {
         return "register";
+    }
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        User user = new User();  // Assuming you have a default constructor
+        model.addAttribute("user", user);
+        return "register";  // Name of the Thymeleaf template
     }
 
    // @PostMapping("/register")
