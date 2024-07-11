@@ -1,18 +1,18 @@
 package twistthrottle.services;
-
 import twistthrottle.models.entities.User;
+import twistthrottle.repositories.UserRepository;
 
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+    private UserRepository userRepository;
     @Override
     public Optional<User> findById(Long id) {
         return Optional.empty();
     }
 
-    @Override
-    public User save(User user) {
-        return null;
+    public User saveUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override

@@ -1,30 +1,32 @@
 package twistthrottle.controllers;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 import twistthrottle.models.entities.User;
+import twistthrottle.services.UserServiceImpl;
 
 @Controller
 public class UserController {
-
+    UserServiceImpl userService;
     @GetMapping("/register")
     public String register() {
         return "register";
     }
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        User user = new User();  // Assuming you have a default constructor
-        model.addAttribute("user", user);
-        return "register";  // Name of the Thymeleaf template
-    }
 
+    @GetMapping("/register-form")
+    public String showRegistrationForm(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
    // @PostMapping("/register")
-   // public ModelAndView registerUser(@RequestParam("username") String username,
-                               //      @RequestParam("email") String email,
-                                  //   @RequestParam("password") String password) {
-        // Assuming you have a service to handle registration
-        //userService.registerNewUser(username, email, password);
-      //  return new ModelAndView("redirect:/home");  // Redirect after successful registration
-   // }
+   // public ModelAndView registerUser(@ModelAttribute User user) {
+  //      userService.saveUser(user);
+  //      return new ModelAndView("redirect:/login");
+//    }
+
 }
+

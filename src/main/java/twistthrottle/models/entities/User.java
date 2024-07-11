@@ -12,6 +12,24 @@ public class User extends BaseEntity {
     private String firstName;
     @Column(name = "last_name",nullable = false)
     private String lastName;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    @Column(name = "username",nullable = false)
     private String username;
     @Column(nullable = false, unique = true)
     private String email;
