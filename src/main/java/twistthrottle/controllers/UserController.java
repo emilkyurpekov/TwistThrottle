@@ -12,21 +12,17 @@ import twistthrottle.services.UserServiceImpl;
 public class UserController {
     UserServiceImpl userService;
     @GetMapping("/register")
-    public String register() {
-        return "register";
+    public String showRegistrationForm(Model model) {
+        // Always prepare a new User object for the form
+        model.addAttribute("user", new User());
+        return "register";  // This view is your register.html
     }
 
-    @GetMapping("/register-form")
-    public String showRegistrationForm(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "register";
+    @PostMapping("/register")
+    public ModelAndView registerUser(@ModelAttribute User user) {
+        userService.saveUser(user);
+        return new ModelAndView("redirect:/login"); // Assuming you have a login page to redirect to
     }
-   // @PostMapping("/register")
-   // public ModelAndView registerUser(@ModelAttribute User user) {
-  //      userService.saveUser(user);
-  //      return new ModelAndView("redirect:/login");
-//    }
 
 }
 

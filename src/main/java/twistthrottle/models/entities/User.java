@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User extends BaseEntity {
     @Column(name = "first_name", nullable = false)
     private String firstName;
