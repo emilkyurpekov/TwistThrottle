@@ -5,40 +5,37 @@ body {
     background-color: #f4f4f4;
 }
 
-.header {
+.header, .reg-header {
     background-color: #000;
     color: white;
     padding: 10px 0;
     text-align: center;
 }
 
-.header h1 {
+.header h1, .reg-header h1 {
     margin: 0;
     font-size: 2.5em;
 }
 
-.header p {
+.header p, .reg-header p {
     margin: 0;
     font-size: 1em;
     color: #cccccc;
 }
 
-nav {
+.menu, nav {
     background-color: #000;
     overflow: hidden;
 }
 
-nav ul {
+.menu .buttons-left, nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-nav ul li {
+.menu .buttons-left a, nav ul li a {
     float: left;
-}
-
-nav ul li a {
     display: block;
     color: white;
     text-align: center;
@@ -46,7 +43,7 @@ nav ul li a {
     text-decoration: none;
 }
 
-nav ul li a:hover {
+.menu .buttons-left a:hover, nav ul li a:hover {
     background-color: #575757;
 }
 
@@ -68,14 +65,16 @@ nav ul li a:hover {
     margin-bottom: 5px;
 }
 
-.form-container input {
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.form-container button {
+.form-container input[type="submit"] {
     padding: 10px;
     background-color: #000;
     color: white;
@@ -84,6 +83,6 @@ nav ul li a:hover {
     cursor: pointer;
 }
 
-.form-container button:hover {
+.form-container input[type="submit"]:hover {
     background-color: #575757;
 }

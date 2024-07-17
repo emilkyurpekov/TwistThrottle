@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-    <link rel="stylesheet" href="/register-page.css">
-    <link rel="stylesheet" href="/buttons.css">
+    <link rel="stylesheet" href="/styles.css">
     <meta charset="UTF-8">
 
     <title>Register</title>
 </head>
 <body>
-<div class="container">
-<div class="reg-header">
+<div class="header">
     <header>
         <h1>Welcome to TwistThrottle</h1>
         <p>Please register below</p>
@@ -21,6 +19,7 @@
             <a href="/about" class="button">About</a>
             <a href="/register" class="button">Register</a>
         </div>
+    </div>
     <div class="form-container">
         <form th:action="@{/register}" th:object="${user}" method="post">
             <label for="firstName">First Name:</label>
@@ -41,8 +40,7 @@
             <input type="submit" value="Submit"/>
         </form>
         </div>
-    </div>
-    </div>
+
 
 </body>
 </html>
