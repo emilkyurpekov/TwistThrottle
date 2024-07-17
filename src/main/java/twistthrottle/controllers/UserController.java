@@ -1,4 +1,5 @@
 package twistthrottle.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +11,14 @@ import twistthrottle.services.UserServiceImpl;
 
 @Controller
 public class UserController {
-    UserServiceImpl userService;
+    @Autowired
+    private final UserServiceImpl userService;
+
+    public UserController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
+
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         // Always prepare a new User object for the form
