@@ -6,28 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseEntity {
     @Column(name = "first_name", nullable = false)
     private String firstName;
     @Column(name = "last_name",nullable = false)
     private String lastName;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 
     @Column(name = "username",nullable = false)
     private String username;
@@ -49,6 +34,21 @@ public class User extends BaseEntity {
     public void addOrder(Order order) {
         orders.add(order);
         order.setUser(this);
+    }
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public void removeOrder(Order order) {
