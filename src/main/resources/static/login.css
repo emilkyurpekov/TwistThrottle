@@ -58,7 +58,11 @@ nav ul li a:hover {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     border-radius: 8px;
 }
-
+.form-container p {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #666;
+}
 .form-container form {
     display: flex;
     flex-direction: column;
