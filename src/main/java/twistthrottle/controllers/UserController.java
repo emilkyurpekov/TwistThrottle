@@ -1,4 +1,5 @@
 package twistthrottle.controllers;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,9 +34,10 @@ public class UserController {
         return new ModelAndView("redirect:/login");
     }
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model) {
+    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         User user = userService.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
+            session.setAttribute("loggedInUser", user);
             return "redirect:/home";
         } else {
             model.addAttribute("loginError", "Invalid username or password");
