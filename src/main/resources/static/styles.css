@@ -5,7 +5,7 @@ body {
     background-color: #f4f4f4;
 }
 
-.header, .reg-header {
+.header {
     background-color: #000;
     color: white;
     padding: 10px 0;
@@ -21,68 +21,4 @@ body {
     margin: 0;
     font-size: 1em;
     color: #cccccc;
-}
-
-.menu, nav {
-    background-color: #000;
-    overflow: hidden;
-}
-
-.menu .buttons-left, nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.menu .buttons-left a, nav ul li a {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.menu .buttons-left a:hover, nav ul li a:hover {
-    background-color: #575757;
-}
-
-.form-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    border-radius: 8px;
-}
-
-.form-container form {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-container label {
-    margin-bottom: 5px;
-}
-
-.form-container input[type="text"],
-.form-container input[type="email"],
-.form-container input[type="password"] {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.form-container input[type="submit"] {
-    padding: 10px;
-    background-color: #000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.form-container input[type="submit"]:hover {
-    background-color: #575757;
 }

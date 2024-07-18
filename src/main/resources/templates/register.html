@@ -10,16 +10,9 @@
 <div class="header">
     <header>
         <h1>Welcome to TwistThrottle</h1>
-        <p>Please register below</p>
+        <p>Treat your motorcycle with selected parts</p>
     </header>
 </div>
-    <div class="menu">
-        <div class="buttons-left">
-            <a href="/home" class="button">Home</a>
-            <a href="/about" class="button">About</a>
-            <a href="/login" class="button">Login</a>
-        </div>
-    </div>
     <div class="form-container">
         <form th:action="@{/register}" th:object="${user}" method="post">
             <label for="firstName">First Name:</label>
@@ -38,6 +31,7 @@
             <input type="password" id="password" th:field="*{password}" placeholder="More than 8 characters" required/>
             <br/>
             <input type="submit" value="Submit"/>
+            <p>Already have an account? <a href="/login">Login</a></p>
         </form>
         </div>
 
