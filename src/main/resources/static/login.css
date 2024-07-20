@@ -91,3 +91,8 @@ nav ul li a:hover {
 .form-container button:hover {
     background-color: #575757;
 }
+.error-message {
+    color: red;
+    margin: 10px 0;
+    font-size: 0.9em;
+}

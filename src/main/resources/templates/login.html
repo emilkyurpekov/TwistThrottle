@@ -13,6 +13,7 @@
 
 <div class="form-container">
     <h2>Login</h2>
+    <div th:if="${loginError}" th:text="${loginError}" class="error-message"></div>
     <form action="/login" method="POST">
         <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="johndoe1" required>
