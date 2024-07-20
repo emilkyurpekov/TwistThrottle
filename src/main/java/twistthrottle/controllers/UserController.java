@@ -44,6 +44,15 @@ public class UserController {
             return "login";
         }
     }
+    @GetMapping("/profile")
+    public String showUserProfile(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login"; // Redirect to login page if user is not logged in
+        }
+        model.addAttribute("user", user);
+        return "profile"; // Return the profile view
+    }
 
 }
 
