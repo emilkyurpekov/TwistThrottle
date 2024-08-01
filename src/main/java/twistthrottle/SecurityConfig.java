@@ -21,4 +21,16 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .logout(logout -> logout
+                        .logoutUrl("/logout")  // The URL to trigger logout
+                        .logoutSuccessUrl("/home")  // Where to go after logout
+                        .deleteCookies("JSESSIONID")  // Optional: Delete session cookie
+                        .invalidateHttpSession(true)  // Invalidate session
+                )
+        // other configurations
+        ;
+    }
 }

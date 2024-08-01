@@ -1,4 +1,5 @@
 package twistthrottle.controllers;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,13 @@ public class UserController {
         model.addAttribute("user", user);
         return "profile"; // Return the profile view
     }
-
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // This removes all session attributes and effectively logs the user out
+        }
+        return "redirect:/home"; // Redirects to the login page after logout
+    }
 }
 

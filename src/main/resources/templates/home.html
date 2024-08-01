@@ -17,12 +17,12 @@
             <li><a href="/profile">My Profile</a></li>
             <li><a href="/about">About</a></li>
             <li th:if="${isLoggedIn}">
-                <a href="/logout" class="button">Logout</a>
-                <a href="/cart" class="button">Cart</a>
+                <a href="/logout" >Logout</a>
+                <a href="/cart" >Cart</a>
             </li>
             <li th:unless="${isLoggedIn}">
-                <a href="/login" class="button">Login</a>
-                <a href="/register" class="button">Register</a>
+                <a href="/login" >Login</a>
+                <a href="/register" >Register</a>
             </li>
         </ul>
     </nav>
