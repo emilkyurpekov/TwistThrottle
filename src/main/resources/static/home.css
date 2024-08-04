@@ -26,16 +26,22 @@ body {
 nav {
     background-color: #000;
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    justify-content: center; /* Align items in the center */
+    align-items: center;
 }
 
 nav ul li {
-    float: left;
+    display: flex;
+    align-items: center; /* Align items in the center */
 }
 
 nav ul li a {
@@ -44,6 +50,7 @@ nav ul li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    align-items: center;
 }
 
 nav ul li a:hover {
@@ -74,24 +81,4 @@ nav ul li a:hover {
     background-color: #575757;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
-}
-
-nav ul li {
-    float: left;
-}
-
-nav ul li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    background-color: #575757;
-}
-nav {
-    width: 100%;
-    box-sizing: border-box;
 }
