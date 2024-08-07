@@ -4,11 +4,11 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import twistthrottle.models.entities.User;
 import twistthrottle.services.UserServiceImpl;
 
@@ -30,9 +30,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerUser(@ModelAttribute User user) {
+    public String registerUser(@ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+        if (userService.existsByEmail(user.getEmail())) {
+            model.addAttribute("emailExists", "An account with this email already exists.");
+            return "register";  // Assuming your registration page view name is "register"
+        }
+        // Continue with registration if the email doesn't exist
         userService.saveUser(user);
-        return new ModelAndView("redirect:/login");
+        return "redirect:/registrationSuccess";  // Redirect to a success page after registration
     }
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
