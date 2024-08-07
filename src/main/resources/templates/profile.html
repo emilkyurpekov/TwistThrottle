@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>User Profile</title>
     <link rel="stylesheet" href="/profile.css">
+    <script src="profile.js"></script>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
 </head>
 <body>
 <div class="profile-container">
-    <h1>User Profile</h1>
-    <div>
-        <h2>Welcome,
-        <span th:text="${user.firstName} + ' ' + ${user.lastName}">Username</span>!</h2>
-        <p>Email: <span th:text="${user.email}">user@example.com</span></p>
-        <p>More details here...</p>
+    <h1>My Profile</h1>
+    <div class="profile-details">
+        <p><strong>Username:</strong><span th:text="${user.username}">Username</span>
+        <p><strong>Email:</strong>  <span th:text="${user.email}">user@example.com</span></p>
+        <p><strong>First name:</strong><span th:text ="${user.firstName}"></span></p>
+        <p><strong>Last name:</strong><span th:text ="${user.lastName}"></span></p>
+    </div>
+    <div class="actions">
+        <button onclick="editProfile()">Edit Profile</button>
+        <button onclick="changePassword()">Change Password</button>
     </div>
 </div>
+
 </body>
 </html>
