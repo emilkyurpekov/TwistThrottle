@@ -19,11 +19,11 @@
         <p><strong>First name:</strong><span th:text ="${user.firstName}"></span></p>
         <p><strong>Last name:</strong><span th:text ="${user.lastName}"></span></p>
     </div>
+
     <div class="actions">
+        <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
         <button onclick="changePassword()">Change Password</button>
     </div>
-</div>
-
 </body>
 </html>
