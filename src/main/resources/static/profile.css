@@ -1,7 +1,26 @@
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.twist-header {
+    background-color: #000;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
 }
 
+.twist-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.twist-header p {
+    margin: 0;
+    font-size: 1em;
+    color: #cccccc;
+}
 .profile-container {
     width: 80%;
     margin: auto;
