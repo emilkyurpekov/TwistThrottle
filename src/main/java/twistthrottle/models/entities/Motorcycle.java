@@ -23,7 +23,13 @@ public class Motorcycle extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    public String getMake() {
+        return make;
+    }
 
+    public int getYear() {
+        return year;
+    }
     public String getModel() {
         return model;
     }

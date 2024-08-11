@@ -55,14 +55,15 @@ public class UserController {
         }
     }
     @GetMapping("/profile")
-
     public String showUserProfile(Model model, HttpSession session) {
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
-        if (loggedInUser == null) {
-            return "redirect:/login"; // Redirect to login page if user is not logged in
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/login"; // Make sure this redirect is working correctly.
         }
-        model.addAttribute("user", loggedInUser);
-        return "profile"; // Return the profile view
+        model.addAttribute("user", user);
+        // Assuming you have additional data like motorcycles
+        model.addAttribute("motorcycles", motorcycleService.getMotorcyclesByUser(user));
+        return "profile"; // Ensure 'profile.html' is correctly located under /src/main/resources/templates/
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {

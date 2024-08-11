@@ -46,19 +46,7 @@
             <button type="submit">Add Motorcycle</button>
         </form>
     </div>
-    <div class="motorcycles-list">
-        <h2 th:text="${user.username} + '\'s motorcycles'">User's Motorcycles</h2>
-        <div th:if="${user.motorcycles.isEmpty()}">
-            <p>No motorcycles added yet.</p>
-        </div>
-        <div th:if="not ${user.motorcycles.isEmpty()}">
-            <ul>
-                <li th:each="motorcycle : ${user.motorcycles}">
-                    <span th:text="${motorcycle.make} + ' ' + ${motorcycle.model} + ', ' + ${motorcycle.year}"></span>
-                </li>
-            </ul>
-        </div>
-    </div>
+
     <div class="actions">
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
