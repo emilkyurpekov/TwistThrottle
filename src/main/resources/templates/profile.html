@@ -19,11 +19,51 @@
         <p><strong>First name:</strong><span th:text ="${user.firstName}"></span></p>
         <p><strong>Last name:</strong><span th:text ="${user.lastName}"></span></p>
     </div>
+    <div id="addMotorcycleForm" style="display:none;">
+        <form action="/addMotorcycle" method="post">
+            <label for="make">Make:</label>
+            <input type="text" id="make" name="make" required>
 
+            <label for="model">Model:</label>
+            <input type="text" id="model" name="model" required>
+
+            <label for="year">Year:</label>
+            <input type="number" id="year" name="year">
+
+            <label for="motorcycleType">Type:</label>
+            <select id="motorcycleType" name="motorcycleType">
+                <option value="SPORTBIKE">Sport</option>
+                <option value="CRUISER">Cruiser</option>
+                <option value="TOURING">Touring</option>
+                <option value="CHOPPER">Chopper</option>
+            </select>
+            <label for="horsepower">Horsepower:</label>
+            <input type="number" id="horsepower" name="horsepower" required>
+
+            <label for="weight">Weight:</label>
+            <input type="number" id="weight" name="weight" required>
+
+            <button type="submit">Add Motorcycle</button>
+        </form>
+    </div>
+    <div class="motorcycles-list">
+        <h2 th:text="${user.username} + '\'s motorcycles'">User's Motorcycles</h2>
+        <div th:if="${user.motorcycles.isEmpty()}">
+            <p>No motorcycles added yet.</p>
+        </div>
+        <div th:if="not ${user.motorcycles.isEmpty()}">
+            <ul>
+                <li th:each="motorcycle : ${user.motorcycles}">
+                    <span th:text="${motorcycle.make} + ' ' + ${motorcycle.model} + ', ' + ${motorcycle.year}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
     <div class="actions">
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
         <button onclick="changePassword()">Change Password</button>
     </div>
+</div>
 </body>
 </html>
