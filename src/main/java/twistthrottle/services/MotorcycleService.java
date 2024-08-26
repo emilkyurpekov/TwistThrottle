@@ -16,4 +16,5 @@ public interface MotorcycleService {
     List<Motorcycle> findByHorsepowerGreaterThan(int horsepower);
     List<Motorcycle> findByHorsepowerLessThan(int horsepower);
     List<Motorcycle> findAllByMotorcycleType(motorcycleType motorcycleType);
+    void save(Motorcycle motorcycle);
 }

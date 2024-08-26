@@ -20,7 +20,7 @@
         <p><strong>Last name:</strong><span th:text ="${user.lastName}"></span></p>
     </div>
     <div id="addMotorcycleForm" style="display:none;">
-        <form action="/addMotorcycle" method="post">
+        <form action="/addMotorcycle" method="POST">
             <label for="make">Make:</label>
             <input type="text" id="make" name="make" required>
 
@@ -32,11 +32,12 @@
 
             <label for="motorcycleType">Type:</label>
             <select id="motorcycleType" name="motorcycleType">
-                <option value="SPORTBIKE">Sport</option>
+                <option value="SPORTBIKE">Sportbike</option>
                 <option value="CRUISER">Cruiser</option>
                 <option value="TOURING">Touring</option>
                 <option value="CHOPPER">Chopper</option>
             </select>
+
             <label for="horsepower">Horsepower:</label>
             <input type="number" id="horsepower" name="horsepower" required>
 
@@ -46,7 +47,8 @@
             <button type="submit">Add Motorcycle</button>
         </form>
     </div>
-
+    <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></div>
+    <div th:if="${successMessage}" th:text="${successMessage}" class="successMessage"></div>
     <div class="actions">
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>

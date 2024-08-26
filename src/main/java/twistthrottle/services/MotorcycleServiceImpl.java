@@ -60,4 +60,9 @@ public class MotorcycleServiceImpl implements MotorcycleService {
     public List<Motorcycle> findAllByMotorcycleType(motorcycleType motorcycleType) {
         return null;
     }
+
+
+    public void save(Motorcycle motorcycle) {
+        motorcycleRepository.save(motorcycle);
+    }
 }

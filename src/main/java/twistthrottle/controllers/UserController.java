@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import twistthrottle.models.entities.Motorcycle;
 import twistthrottle.models.entities.User;
 import twistthrottle.services.MotorcycleServiceImpl;
 import twistthrottle.services.UserServiceImpl;
-
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -23,6 +22,7 @@ public class UserController {
     private final MotorcycleServiceImpl motorcycleService;
     public UserController(UserServiceImpl userService, MotorcycleServiceImpl motorcycleService) {
         this.userService = userService;
+
         this.motorcycleService = motorcycleService;
     }
 
@@ -35,13 +35,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
         if (userService.existsByEmail(user.getEmail())) {
             model.addAttribute("emailExists", "An account with this email already exists.");
             return "register";
         }
         userService.saveUser(user);
-        return "redirect:/registrationSuccess";
+        return "redirect:/login";
     }
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
@@ -58,12 +58,10 @@ public class UserController {
     public String showUserProfile(Model model, HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
         if (user == null) {
-            return "redirect:/login"; // Make sure this redirect is working correctly.
+            return "redirect:/login"; // Redirect to login page if user is not logged in
         }
         model.addAttribute("user", user);
-        // Assuming you have additional data like motorcycles
-        model.addAttribute("motorcycles", motorcycleService.getMotorcyclesByUser(user));
-        return "profile"; // Ensure 'profile.html' is correctly located under /src/main/resources/templates/
+        return "profile"; // Return the profile view
     }
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
@@ -73,5 +71,6 @@ public class UserController {
         }
         return "redirect:/home";
     }
+
 }
 

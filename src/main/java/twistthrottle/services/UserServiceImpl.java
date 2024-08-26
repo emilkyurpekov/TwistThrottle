@@ -3,7 +3,9 @@ package twistthrottle.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import twistthrottle.models.entities.Motorcycle;
 import twistthrottle.models.entities.User;
+import twistthrottle.repositories.MotorcycleRepository;
 import twistthrottle.repositories.UserRepository;
 
 import java.util.Optional;
@@ -11,10 +13,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-
+    private final MotorcycleRepository motorcycleRepository;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, MotorcycleRepository motorcycleRepository) {
         this.userRepository = userRepository;
+        this.motorcycleRepository = motorcycleRepository;
     }
 
     @Override
@@ -51,5 +54,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+    
+    public void save(Motorcycle motorcycle) {
+        motorcycleRepository.save(motorcycle);
     }
 }
