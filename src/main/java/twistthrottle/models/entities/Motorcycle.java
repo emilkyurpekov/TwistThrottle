@@ -69,4 +69,20 @@ public class Motorcycle extends BaseEntity{
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
