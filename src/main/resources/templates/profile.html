@@ -47,13 +47,34 @@
             <button type="submit">Add Motorcycle</button>
         </form>
     </div>
+
     <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></div>
     <div th:if="${successMessage}" th:text="${successMessage}" class="successMessage"></div>
     <div class="actions">
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
         <button onclick="changePassword()">Change Password</button>
+        <button onclick="showMotorcycles()">Show Motorcycles</button>
     </div>
 </div>
+<script>
+    function showMotorcycles() {
+        // Assuming the URL to fetch motorcycles is '/api/motorcycles'
+        fetch('/motorcycles')
+            .then(response => response.json())
+            .then(motorcycles => {
+                const list = document.getElementById('motorcycleList');
+                list.innerHTML = ''; // Clear existing entries
+                motorcycles.forEach(motorcycle => {
+                    const item = document.createElement('li');
+                    item.textContent = `${motorcycle.make} ${motorcycle.model} - ${motorcycle.year}`;
+                    list.appendChild(item);
+                });
+                document.getElementById('motorcycleDisplayArea').style.display = 'block'; // Show the list
+            })
+            .catch(error => console.error('Error loading motorcycles:', error));
+    }
+
+</script>
 </body>
 </html>
