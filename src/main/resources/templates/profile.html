@@ -11,6 +11,21 @@
     <h1>TwistThrottle</h1>
     <p>Treat your motorcycle with selected parts</p>
 </div>
+<nav>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/profile">My Profile</a></li>
+        <li><a href="/about">About</a></li>
+        <li th:if="${isLoggedIn}">
+            <a href="/logout" >Logout</a>
+            <a href="/cart" >Cart</a>
+        </li>
+        <li th:unless="${isLoggedIn}">
+            <a href="/login" >Login</a>
+            <a href="/register" >Register</a>
+        </li>
+    </ul>
+</nav>
 <div class="profile-container">
     <h1>My Profile</h1>
     <div class="profile-details">
@@ -46,6 +61,7 @@
 
             <button type="submit">Add Motorcycle</button>
         </form>
+        <ul id="motorcycleList"></ul>
     </div>
 
     <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></div>
@@ -54,12 +70,13 @@
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
         <button onclick="changePassword()">Change Password</button>
-        <button onclick="showMotorcycles()">Show Motorcycles</button>
+        <button onclick="showMotorcycles()">Show My Motorcycles</button>
     </div>
 </div>
+
+</body>
 <script>
     function showMotorcycles() {
-        // Assuming the URL to fetch motorcycles is '/api/motorcycles'
         fetch('/motorcycles')
             .then(response => response.json())
             .then(motorcycles => {
@@ -76,5 +93,4 @@
     }
 
 </script>
-</body>
 </html>

@@ -53,3 +53,36 @@ body {
 .successMessage {
     color: green;
 }
+nav {
+    background-color: #000;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Align items in the center */
+    align-items: center;
+}
+
+nav ul li {
+    display: flex;
+    align-items: center; /* Align items in the center */
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    align-items: center;
+}
+
+nav ul li a:hover {
+    background-color: #575757;
+}
