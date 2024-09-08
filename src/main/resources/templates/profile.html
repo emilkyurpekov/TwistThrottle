@@ -60,9 +60,8 @@
 
             <button type="submit">Add Motorcycle</button>
         </form>
-        <ul id="motorcycleList"></ul>
-    </div>
 
+    </div>
     <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></div>
     <div th:if="${successMessage}" th:text="${successMessage}" class="successMessage"></div>
     <div class="actions">
@@ -72,14 +71,14 @@
         <button onclick="showMotorcycles()">Show My Motorcycles</button>
     </div>
 </div>
-
+<ul id="motorcycles"></ul>
 </body>
 <script>
     function showMotorcycles() {
         fetch('/motorcycles')
             .then(response => response.json())
             .then(motorcycles => {
-                const list = document.getElementById('motorcycleList');
+                const list = document.getElementById('motorcycles');
                 list.innerHTML = ''; // Clear existing entries
                 motorcycles.forEach(motorcycle => {
                     const item = document.createElement('li');
