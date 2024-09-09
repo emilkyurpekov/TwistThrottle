@@ -46,7 +46,7 @@ public class MotorcycleController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        List<Motorcycle> motorcycles = motorcycleService.getMotorcyclesByUser(user);
+        List<Motorcycle> motorcycles = motorcycleService.findByUser(user);
         return ResponseEntity.ok(motorcycles);
     }
 }

@@ -37,7 +37,8 @@ public class MotorcycleServiceImpl implements MotorcycleService {
     }
 
     @Override
-    public List<Motorcycle> getMotorcyclesByUser(User user) {
+    public List<Motorcycle> findByUser(User user) {
+        // Calls the repository's findByUser method which fetches all motorcycles for a given user
         return motorcycleRepository.findByUser(user);
     }
 
