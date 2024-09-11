@@ -45,7 +45,9 @@ public class MotorcycleServiceImpl implements MotorcycleService {
 
     @Override
     public List<Motorcycle> findAllByHorsepowerBetween(int minHP, int maxHP) {
-        return null;
+        List<Motorcycle> motorcycles = motorcycleRepository.findAllByHorsepowerBetween(minHP,maxHP);
+
+        return motorcycles;
     }
 
     @Override
