@@ -57,10 +57,12 @@ public class UserController {
     @GetMapping("/profile")
     public String showUserProfile(Model model, HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) {
+        boolean isLoggedIn = user != null;
+        if (!isLoggedIn) {
             return "redirect:/login"; // Redirect to login page if user is not logged in
         }
         model.addAttribute("user", user);
+        model.addAttribute("isLoggedIn", isLoggedIn); // Add this line
         return "profile"; // Return the profile view
     }
 
