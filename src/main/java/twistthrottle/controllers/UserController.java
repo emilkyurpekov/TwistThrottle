@@ -63,14 +63,6 @@ public class UserController {
         model.addAttribute("user", user);
         return "profile"; // Return the profile view
     }
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return "redirect:/home";
-    }
 
 }
 

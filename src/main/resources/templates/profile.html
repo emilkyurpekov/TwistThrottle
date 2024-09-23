@@ -14,6 +14,7 @@
 <nav>
     <ul>
         <li><a href="/home">Home</a></li>
+        <li><a href="/profile">My Profile</a></li>
         <li><a href="/about">About</a></li>
         <li th:if="${isLoggedIn}">
             <a href="/logout" >Logout</a>
@@ -71,8 +72,8 @@
         <button onclick="showMotorcycles()">Show My Motorcycles</button>
     </div>
 </div>
-<div id="motorcycleDisplayArea" style="display:none;">
-<ul id="motorcycles"></ul>
+<div id="motorcycleDisplayArea">
+    <ul id="motorcycles"></ul>
 </div>
 </body>
 <script>
@@ -80,13 +81,18 @@
         fetch('/motorcycles')
             .then(response => response.json())
             .then(motorcycles => {
+                console.log('Motorcycles fetched:', motorcycles); // Debug: log fetched motorcycles
                 const list = document.getElementById('motorcycles');
                 list.innerHTML = ''; // Clear existing entries
-                motorcycles.forEach(motorcycle => {
+
+                // Iterate over each motorcycle and add it to the list
+                motorcycles.forEach((motorcycle, index) => {
+                    console.log(`Motorcycle ${index + 1}:`, motorcycle); // Debug: log each motorcycle
                     const item = document.createElement('li');
                     item.textContent = `${motorcycle.make} ${motorcycle.model} - ${motorcycle.year}`;
                     list.appendChild(item);
                 });
+
                 document.getElementById('motorcycleDisplayArea').style.display = 'block'; // Show the list
             })
             .catch(error => console.error('Error loading motorcycles:', error));

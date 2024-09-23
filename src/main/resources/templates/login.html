@@ -15,7 +15,7 @@
     <h2>Login</h2>
     <div th:if="${loginError}" th:text="${loginError}" class="error-message"></div>
     <form action="/login" method="POST">
-        <label for="username">Username</label>
+        <label for="username">Username or email</label>
         <input type="text" id="username" name="username" placeholder="johndoe1" required>
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="More than 8 characters" required>
