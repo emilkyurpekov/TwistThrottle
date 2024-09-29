@@ -3,6 +3,7 @@ package twistthrottle.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import twistthrottle.dtos.UserDTO;
 import twistthrottle.models.entities.Motorcycle;
 import twistthrottle.models.entities.User;
 import twistthrottle.repositories.MotorcycleRepository;
@@ -59,4 +60,5 @@ public class UserServiceImpl implements UserService {
     public void save(Motorcycle motorcycle) {
         motorcycleRepository.save(motorcycle);
     }
+
 }
