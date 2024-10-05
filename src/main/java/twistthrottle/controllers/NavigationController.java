@@ -34,4 +34,8 @@ public class NavigationController {
         }
         return "redirect:/home";
     }
+    @GetMapping("/adminlogin")
+    public String adminLogin() {
+        return "adminlogin";
+    }
 }
