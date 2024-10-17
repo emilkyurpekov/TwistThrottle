@@ -82,3 +82,22 @@ nav ul li a:hover {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
+.main-container {
+    background: radial-gradient(circle at center, black 75%, #222 100%);
+    border-radius: 40px;
+    margin: 100px auto;
+    padding: 20px;
+    max-width: 95%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+.about-homePage{
+        font-family: 'Raleway', sans-serif;
+        text-align: justify-all;
+        color: darkorange;
+        font-size: 24px;
+        margin-top: 40px;
+        margin-bottom: 5px;
+        line-height: 1.5;
+        padding: 10px;
+}
