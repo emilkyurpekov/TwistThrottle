@@ -109,5 +109,8 @@ nav ul li a:hover {
     margin-top: 81px;
     margin-bottom: 10px;
 }
-
+#imageList img {
+    height: 150px; /* Make height equal to width for a square */
+    object-fit: cover; /* Ensures image covers the square without distortion */
+}
 
