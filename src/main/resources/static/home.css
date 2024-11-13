@@ -109,8 +109,18 @@ nav ul li a:hover {
     margin-top: 81px;
     margin-bottom: 10px;
 }
+#imageList {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
 #imageList img {
-    height: 150px; /* Make height equal to width for a square */
-    object-fit: cover; /* Ensures image covers the square without distortion */
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-right: 10px;
 }
 
