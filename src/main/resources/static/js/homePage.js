@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         position -= config.step;
 
         if (-position >= totalWidth) {
-            position += totalWidth;
+            position += totalWidth
         }
 
         imageList.style.transform = `translateX(${position}px)`;
