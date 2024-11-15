@@ -109,9 +109,6 @@ nav ul li a:hover {
     margin-top: 81px;
     margin-bottom: 10px;
 }
-.main-container{
-    width: auto;
-}
 #imageList {
     display: flex;
     overflow: hidden;
@@ -120,13 +117,20 @@ nav ul li a:hover {
 }
 
 #imageList img {
-    width: 300px;
+
     height: 200px;
     object-fit: cover;
     flex-shrink: 0;
     margin-right: 10px;
 }
-#imageList bassani{
+.image-container {
+    border-radius: 10px;
+    overflow: hidden;
+    height: 300px;
+}
+#arrowimg{
     width: 500px;
 }
-
+#michelin{
+    width: 500px;
+}
