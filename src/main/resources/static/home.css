@@ -35,13 +35,13 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center; /* Align items in the center */
+    justify-content: center;
     align-items: center;
 }
 
 nav ul li {
     display: flex;
-    align-items: center; /* Align items in the center */
+    align-items: center;
 }
 
 nav ul li a {
