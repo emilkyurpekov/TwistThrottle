@@ -1,2 +1,19 @@
-# TwistThrottle
-MVC project for the final exam of SoftUni Bulgaria. I don't hold any copyright of the brands that are in the project and it is only for education purposes.
+**CinemaCritique:**
+
+**Overview:**
+
+**Key Features:**
+User Reviews: Submit and explore reviews and ratings.
+
+Film Database: Access extensive film information.
+
+Community Discussions: Engage in meaningful conversations.
+
+Expert Insights: Discover deeper analyses and viewpoints.
+
+Technologies Employed:
+Front-end: HTML, CSS, JavaScript
+
+Back-end: ASP.NET MVC
+
+Database Management: Entity Framework Core, SQL Server
