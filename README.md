@@ -1,6 +1,6 @@
 # TwistThrottle
 
 # **Overview:**
-- **Key Features:**
-- **Technologies Employed:**
-- **Functionality Screenshots:**
+# **Key Features:**
+# **Technologies Employed:**
+# **Functionality Screenshots:**
