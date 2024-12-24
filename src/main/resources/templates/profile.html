@@ -69,10 +69,11 @@
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
         <button onclick="changePassword()">Change Password</button>
-        <button onclick="showMotorcycles()">Show My Motorcycles</button>
+        <button id="showMotorcyclesButton" onclick="toggleMotorcycles()">Show Motorcycles</button>
+
     </div>
 </div>
-<div id="motorcycleDisplayArea">
+<div id="motorcycleDisplayArea" style="display: none;">
     <ul id="motorcycles"></ul>
 </div>
 </body>
