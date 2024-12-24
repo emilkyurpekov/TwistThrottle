@@ -1,51 +1,58 @@
 document.addEventListener("DOMContentLoaded", function () {
     const config = {
-        step: 2,
-        resizeDebounceTime: 300,
+        step: 2, // Speed of movement (increase safely)
+        resizeDebounceTime: 2100, // Debounce time for resize
     };
 
-    let position = 0;
-    let totalWidth = 0;
-    let resizeTimeout;
     const imageList = document.getElementById("imageList");
     const images = Array.from(imageList.children);
 
-    function calculateTotalWidth() {
-        totalWidth = images.reduce((acc, img) => acc + img.clientWidth, 0);
-        console.log("Total Width Calculated:", totalWidth); // Debugging log
-    }
+    let imageWidths = []; // Store the width of each image
+    let totalWidth = 0; // Total width of all images
+    let currentTranslateX = 0; // Current translation of the list
 
-    function cloneImages() {
-        images.forEach((img) => {
-            const clone = img.cloneNode(true);
-            imageList.appendChild(clone);
-        });
-        console.log("Images cloned successfully"); // Debugging log
+    function calculateImageWidths() {
+        // Recalculate each image's width and the total width
+        imageWidths = images.map((img) => img.offsetWidth + 10); // Include margin-right
+        totalWidth = imageWidths.reduce((acc, width) => acc + width, 0);
     }
 
     function moveImages() {
-        position -= config.step;
+        currentTranslateX -= config.step;
 
-        if (-position >= totalWidth) {
-            position += totalWidth
+        const firstImageWidth = imageWidths[0];
+        if (Math.abs(currentTranslateX) >= firstImageWidth) {
+            const firstImage = images.shift();
+            currentTranslateX += firstImageWidth;
+
+            imageList.style.transition = "none"; // Disable transition temporarily
+            imageList.appendChild(firstImage); // Move the first image to the end
+            images.push(firstImage); // Update the image array
+
+            // Immediately reposition the image list to maintain smooth scrolling
+            imageList.style.transform = `translateX(${currentTranslateX}px)`;
+            requestAnimationFrame(() => {
+                imageList.style.transition = "transform 0.1s linear"; // Re-enable animation
+            });
+
+            // Recalculate widths in case of dynamic updates
+            calculateImageWidths();
         }
 
-        imageList.style.transform = `translateX(${position}px)`;
-        console.log("Current Position:", position); // Debugging log
+        // Apply the translation for smooth animation
+        imageList.style.transform = `translateX(${currentTranslateX}px)`;
+
+        // Continue the animation
         requestAnimationFrame(moveImages);
     }
 
     function handleResize() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            calculateTotalWidth();
-        }, config.resizeDebounceTime);
+        calculateImageWidths(); // Recalculate dimensions on resize
     }
 
-    calculateTotalWidth();
-    cloneImages();
+    // Initial setup
+    calculateImageWidths();
+    requestAnimationFrame(moveImages);
 
     window.addEventListener("resize", handleResize);
-
-    requestAnimationFrame(moveImages);
 });
