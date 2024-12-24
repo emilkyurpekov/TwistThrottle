@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/profile.css">
-    <script src="profile.js"></script>
+    <script src="/js/motorcyclesList.js"></script>
     <meta charset="UTF-8">
     <title>My Profile</title>
 </head>
@@ -76,27 +76,4 @@
     <ul id="motorcycles"></ul>
 </div>
 </body>
-<script>
-    function showMotorcycles() {
-        fetch('/motorcycles')
-            .then(response => response.json())
-            .then(motorcycles => {
-                console.log('Motorcycles fetched:', motorcycles); // Debug: log fetched motorcycles
-                const list = document.getElementById('motorcycles');
-                list.innerHTML = ''; // Clear existing entries
-
-                // Iterate over each motorcycle and add it to the list
-                motorcycles.forEach((motorcycle, index) => {
-                    console.log(`Motorcycle ${index + 1}:`, motorcycle); // Debug: log each motorcycle
-                    const item = document.createElement('li');
-                    item.textContent = `${motorcycle.make} ${motorcycle.model} - ${motorcycle.year}`;
-                    list.appendChild(item);
-                });
-
-                document.getElementById('motorcycleDisplayArea').style.display = 'block'; // Show the list
-            })
-            .catch(error => console.error('Error loading motorcycles:', error));
-    }
-
-</script>
 </html>

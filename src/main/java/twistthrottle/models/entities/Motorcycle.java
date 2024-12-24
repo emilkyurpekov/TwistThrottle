@@ -1,5 +1,6 @@
 package twistthrottle.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import twistthrottle.models.entities.enums.motorcycleType;
 
@@ -21,6 +22,7 @@ public class Motorcycle extends BaseEntity{
     private String imageUrl;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
     public String getMake() {
