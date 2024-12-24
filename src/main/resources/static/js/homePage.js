@@ -27,30 +27,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
             imageList.style.transition = "none"; // Disable transition temporarily
             imageList.appendChild(firstImage); // Move the first image to the end
-            images.push(firstImage); // Update the image array
+            images.push(firstImage);
 
-            // Immediately reposition the image list to maintain smooth scrolling
             imageList.style.transform = `translateX(${currentTranslateX}px)`;
             requestAnimationFrame(() => {
-                imageList.style.transition = "transform 0.1s linear"; // Re-enable animation
+                imageList.style.transition = "transform 0.1s linear";
             });
 
-            // Recalculate widths in case of dynamic updates
             calculateImageWidths();
         }
 
-        // Apply the translation for smooth animation
         imageList.style.transform = `translateX(${currentTranslateX}px)`;
 
-        // Continue the animation
         requestAnimationFrame(moveImages);
     }
 
     function handleResize() {
-        calculateImageWidths(); // Recalculate dimensions on resize
+        calculateImageWidths();
     }
 
-    // Initial setup
     calculateImageWidths();
     requestAnimationFrame(moveImages);
 
