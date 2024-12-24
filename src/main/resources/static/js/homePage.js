@@ -12,8 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentTranslateX = 0; // Current translation of the list
 
     function calculateImageWidths() {
-        // Recalculate each image's width and the total width
-        imageWidths = images.map((img) => img.offsetWidth + 10); // Include margin-right
+        imageWidths = images.map((img) => img.offsetWidth + 10);
         totalWidth = imageWidths.reduce((acc, width) => acc + width, 0);
     }
 
@@ -25,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const firstImage = images.shift();
             currentTranslateX += firstImageWidth;
 
-            imageList.style.transition = "none"; // Disable transition temporarily
-            imageList.appendChild(firstImage); // Move the first image to the end
+            imageList.style.transition = "none";
+            imageList.appendChild(firstImage);
             images.push(firstImage);
 
             imageList.style.transform = `translateX(${currentTranslateX}px)`;
