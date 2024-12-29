@@ -19,6 +19,11 @@ public class Motorcycle extends BaseEntity{
     private int horsepower;
     @Column(nullable = false)
     private double weight;
+
+
+
+    @Column(nullable = false)
+    private double volume;
     private String imageUrl;
 
     @ManyToOne
@@ -84,7 +89,15 @@ public class Motorcycle extends BaseEntity{
         return imageUrl;
     }
 
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
     }
 }

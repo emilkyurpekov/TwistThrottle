@@ -45,6 +45,7 @@
             <label for="year">Year:</label>
             <input type="number" id="year" name="year">
 
+
             <label for="motorcycleType">Type:</label>
             <select id="motorcycleType" name="motorcycleType">
                 <option value="SPORTBIKE">Sportbike</option>
@@ -58,6 +59,9 @@
 
             <label for="weight">Weight:</label>
             <input type="number" id="weight" name="weight" required>
+
+            <label for="volume">Volume (cc):</label>
+            <input type="number" id="volume" name="volume" required>
 
             <button type="submit">Add Motorcycle</button>
         </form>
@@ -74,7 +78,7 @@
     </div>
 </div>
 <div id="motorcycleDisplayArea" style="display: none;">
-    <ul id="motorcycles"></ul>
+    <ul id="motorcycles" class="motorcycle-list"></ul>
 </div>
 </body>
 </html>

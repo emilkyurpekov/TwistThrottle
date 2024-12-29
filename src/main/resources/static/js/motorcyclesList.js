@@ -3,12 +3,12 @@ function toggleMotorcycles() {
     const motorcycleDisplayArea = document.getElementById('motorcycleDisplayArea');
 
     if (motorcycleDisplayArea.style.display === 'block') {
-        // If motorcycles are displayed, hide them
+        // Hide the motorcycle list
         motorcycleDisplayArea.style.display = 'none';
-        button.textContent = 'Show Motorcycles'; // Change button text to "Show Motorcycles"
+        button.textContent = 'Show Motorcycles';
     } else {
-        // If motorcycles are hidden, fetch and show them
-        button.disabled = true; // Disable button to prevent multiple clicks
+        // Show the motorcycle list
+        button.disabled = true;
 
         fetch('/motorcycles')
             .then(response => {
@@ -21,12 +21,34 @@ function toggleMotorcycles() {
                 console.log('Fetched motorcycles:', data);
 
                 const motorcycleList = document.getElementById('motorcycles');
-                motorcycleList.innerHTML = ''; // Clear existing list
+                motorcycleList.innerHTML = '';
 
                 if (Array.isArray(data) && data.length > 0) {
-                    data.forEach(motorcycle => {
+                    data.forEach((motorcycle, index) => {
+                        // Create a list item for each motorcycle
                         const listItem = document.createElement('li');
+                        listItem.className = 'motorcycle-item';
                         listItem.textContent = `${motorcycle.make} ${motorcycle.model} - ${motorcycle.year}`;
+
+                        // Create a dropdown container for additional info
+                        const dropdown = document.createElement('div');
+                        dropdown.className = 'motorcycle-dropdown';
+                        dropdown.style.display = 'none';
+                        dropdown.innerHTML = `
+                            <p><strong>Type:</strong> ${motorcycle.motorcycleType}</p>
+                            <p><strong>Horsepower:</strong> ${motorcycle.horsepower}</p>
+                            <p><strong>Weight:</strong> ${motorcycle.weight} kg</p>
+                            <p><strong>Volume:</strong> ${motorcycle.vol}cc</p>
+                        `;
+
+                        // Add click event to toggle dropdown
+                        listItem.addEventListener('click', () => {
+                            const isVisible = dropdown.style.display === 'block';
+                            dropdown.style.display = isVisible ? 'none' : 'block';
+                        });
+
+                        // Append the dropdown to the list item
+                        listItem.appendChild(dropdown);
                         motorcycleList.appendChild(listItem);
                     });
                 } else {
@@ -35,15 +57,15 @@ function toggleMotorcycles() {
                     motorcycleList.appendChild(emptyMessage);
                 }
 
-                motorcycleDisplayArea.style.display = 'block'; // Show the list
-                button.textContent = 'Hide Motorcycles'; // Change button text to "Hide Motorcycles"
+                motorcycleDisplayArea.style.display = 'block';
+                button.textContent = 'Hide Motorcycles';
             })
             .catch(error => {
                 console.error('Error fetching motorcycles:', error);
                 alert('Failed to load motorcycles. Please try again later.');
             })
             .finally(() => {
-                button.disabled = false; // Re-enable button after fetch completes
+                button.disabled = false;
             });
     }
 }

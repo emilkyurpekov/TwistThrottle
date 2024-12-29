@@ -86,3 +86,136 @@ nav ul li a {
 nav ul li a:hover {
     background-color: #575757;
 }
+/* General Styling for the List */
+.motorcycle-list {
+    list-style-type: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    max-width: 500px; /* Limit width */
+    margin: 20px auto; /* Center the list */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+/* Individual List Item Styling */
+.motorcycle-list li {
+    padding: 10px 15px; /* Add padding */
+    border-bottom: 1px solid #ddd; /* Add separator between items */
+    font-family: Arial, sans-serif; /* Modern font */
+    font-size: 16px; /* Readable size */
+    color: #333; /* Neutral text color */
+}
+
+/* Last Item (No Border) */
+.motorcycle-list li:last-child {
+    border-bottom: none; /* Remove bottom border for the last item */
+}
+
+
+.motorcycle-list li:hover {
+    background-color: #e6f7ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+/* Style the motorcycle list */
+.motorcycle-item {
+    position: relative;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.motorcycle-item:hover {
+    background-color: #e6f7ff;
+}
+
+/* Dropdown container */
+.motorcycle-dropdown {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #333;
+}
+
+/* Hide dropdown content initially */
+.motorcycle-dropdown p {
+    margin: 5px 0;
+}
+/* Form Container */
+#addMotorcycleForm {
+    max-width: 500px; /* Limit form width */
+    margin: 20px auto; /* Center the form */
+    padding: 20px; /* Add padding */
+    background-color: #f9f9f9; /* Light background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-family: Arial, sans-serif; /* Modern font */
+}
+
+/* Form Labels */
+#addMotorcycleForm label {
+    display: block; /* Stack labels on top */
+    font-weight: bold; /* Make them stand out */
+    margin-bottom: 5px; /* Add spacing below */
+    color: #333; /* Dark text color */
+}
+
+/* Form Inputs and Selects */
+#addMotorcycleForm input[type="text"],
+#addMotorcycleForm input[type="number"],
+#addMotorcycleForm select {
+    width: 100%; /* Full width */
+    padding: 10px; /* Add padding */
+    margin-bottom: 15px; /* Add spacing below */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width */
+    font-size: 14px; /* Readable font size */
+    color: #333; /* Neutral text color */
+}
+
+/* Inputs on Focus */
+#addMotorcycleForm input:focus,
+#addMotorcycleForm select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #007bff; /* Highlight border */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.6); /* Add subtle glow */
+}
+
+/* Submit Button */
+#addMotorcycleForm button[type="submit"] {
+    display: block; /* Center the button */
+    width: 100%; /* Full width */
+    padding: 10px 15px; /* Add padding */
+    background-color: black; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Make the button text larger */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Button Hover Effect */
+#addMotorcycleForm button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #addMotorcycleForm {
+        padding: 15px; /* Reduce padding for smaller screens */
+    }
+
+    #addMotorcycleForm button[type="submit"] {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}
+
