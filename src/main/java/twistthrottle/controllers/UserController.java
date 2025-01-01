@@ -26,17 +26,6 @@ public class UserController {
 
         this.motorcycleService = motorcycleService;
     }
-    @GetMapping("/check-username")
-    public ResponseEntity<Map<String, Boolean>> checkUsername(@RequestParam String username) {
-        boolean exists = userService.existsByUsername(username);
-        return ResponseEntity.ok(Map.of("exists", exists));
-    }
-
-    @GetMapping("/check-email")
-    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
-        boolean exists = userService.existsByEmail(email);
-        return ResponseEntity.ok(Map.of("exists", exists));
-    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
