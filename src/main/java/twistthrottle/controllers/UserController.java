@@ -2,6 +2,7 @@ package twistthrottle.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import twistthrottle.models.entities.User;
 import twistthrottle.services.MotorcycleServiceImpl;
 import twistthrottle.services.UserServiceImpl;
 
+import java.util.Map;
+
 @Controller
 public class UserController {
     @Autowired
@@ -23,7 +26,17 @@ public class UserController {
 
         this.motorcycleService = motorcycleService;
     }
+    @GetMapping("/check-username")
+    public ResponseEntity<Map<String, Boolean>> checkUsername(@RequestParam String username) {
+        boolean exists = userService.existsByUsername(username);
+        return ResponseEntity.ok(Map.of("exists", exists));
+    }
 
+    @GetMapping("/check-email")
+    public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) {
+        boolean exists = userService.existsByEmail(email);
+        return ResponseEntity.ok(Map.of("exists", exists));
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -70,11 +83,11 @@ public class UserController {
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
 
-        // Add UserDTO to the model
-        model.addAttribute("user", userDTO);
-        model.addAttribute("isLoggedIn", isLoggedIn); // Add login status to the model
 
-        // Return the profile view
+        model.addAttribute("user", userDTO);
+        model.addAttribute("isLoggedIn", isLoggedIn);
+
+
         return "profile";
     }
 
