@@ -38,7 +38,7 @@ function toggleMotorcycles() {
                             <p><strong>Type:</strong> ${motorcycle.motorcycleType}</p>
                             <p><strong>Horsepower:</strong> ${motorcycle.horsepower}</p>
                             <p><strong>Weight:</strong> ${motorcycle.weight} kg</p>
-                            <p><strong>Volume:</strong> ${motorcycle.vol}cc</p>
+                            <p><strong>Volume:</strong> ${motorcycle.volume}cc</p>
                         `;
 
                         // Add click event to toggle dropdown
