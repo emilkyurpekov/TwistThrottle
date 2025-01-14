@@ -12,6 +12,7 @@ public interface ProductService {
 
     void updateProductStock(Long productId, int newStock);
     List<Product> findAllByProductType(productType productType);
+    List<Product> findAll();
     List<Product> findAllByCategory(Category category);
     List<Product> findAllByPriceBetween(int minPrice, int maxPrice);
     List<Product> findProductByName(String name);

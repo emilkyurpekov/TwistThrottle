@@ -38,6 +38,11 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public List<Product> findAll() {
+        return null;
+    }
+
+    @Override
     public List<Product> findAllByCategory(Category category) {
         return productRepository.findAllByCategory(category);
     }
