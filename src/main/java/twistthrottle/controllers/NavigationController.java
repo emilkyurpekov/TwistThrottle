@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import twistthrottle.models.entities.Product;
+
+import java.util.List;
 
 @Controller
 public class NavigationController {
@@ -36,4 +39,10 @@ public class NavigationController {
     public String adminLogin() {
         return "adminlogin";
     }
+    // @GetMapping("/products")
+    //public String getProducts(Model model) {
+    //    List<Product> products = ProductRepository.findAll();
+    //    model.addAttribute("products", products);
+    //    return "products"; // Name of your view template (e.g., products.html)
+    //}
 }
