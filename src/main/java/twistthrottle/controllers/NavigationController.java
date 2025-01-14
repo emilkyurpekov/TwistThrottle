@@ -7,11 +7,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import twistthrottle.models.entities.Product;
+import twistthrottle.repositories.ProductRepository;
+import twistthrottle.services.ProductServiceImpl;
 
 import java.util.List;
 
 @Controller
 public class NavigationController {
+    private final ProductServiceImpl productService;
+
+    public NavigationController(ProductServiceImpl productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/home")
     public String home(Model model, HttpServletRequest request) {
@@ -39,10 +46,10 @@ public class NavigationController {
     public String adminLogin() {
         return "adminlogin";
     }
-    // @GetMapping("/products")
-    //public String getProducts(Model model) {
-    //    List<Product> products = ProductRepository.findAll();
-    //    model.addAttribute("products", products);
-    //    return "products"; // Name of your view template (e.g., products.html)
-    //}
+     @GetMapping("/products")
+    public String getProducts(Model model) {
+        List<Product> products = productService.findAll();
+        model.addAttribute("products", products);
+        return "products"; // Name of your view template (e.g., products.html)
+    }
 }
