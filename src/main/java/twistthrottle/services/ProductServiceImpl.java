@@ -61,4 +61,9 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findAllByOrderByPriceDesc();
     }
 
+    @Override
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+
 }

@@ -17,4 +17,5 @@ public interface ProductService {
     List<Product> findAllByPriceBetween(int minPrice, int maxPrice);
     List<Product> findProductByName(String name);
     List<Product> findAllByOrderByPriceDesc();
+    List<Product> findByCategoryId(Long categoryId);
 }
