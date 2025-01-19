@@ -1,4 +1,4 @@
-package twistthrottle.services;
+package twistthrottle.services.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +7,12 @@ import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
 import twistthrottle.models.entities.enums.productType;
 import twistthrottle.repositories.ProductRepository;
+import twistthrottle.services.ProductService;
 
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Autowired

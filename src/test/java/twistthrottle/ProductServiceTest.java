@@ -8,7 +8,7 @@ import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
 import twistthrottle.models.entities.enums.productType;
 import twistthrottle.repositories.ProductRepository;
-import twistthrottle.services.ProductServiceImpl;
+import twistthrottle.services.impl.ProductServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

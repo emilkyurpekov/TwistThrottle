@@ -1,10 +1,11 @@
-package twistthrottle.services;
+package twistthrottle.services.impl;
 
 import org.springframework.stereotype.Service;
 import twistthrottle.models.entities.Motorcycle;
 import twistthrottle.models.entities.User;
 import twistthrottle.models.entities.enums.motorcycleType;
 import twistthrottle.repositories.MotorcycleRepository;
+import twistthrottle.services.MotorcycleService;
 
 import java.util.List;
 

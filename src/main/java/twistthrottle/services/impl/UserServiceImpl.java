@@ -1,4 +1,4 @@
-package twistthrottle.services;
+package twistthrottle.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +8,7 @@ import twistthrottle.models.entities.Motorcycle;
 import twistthrottle.models.entities.User;
 import twistthrottle.repositories.MotorcycleRepository;
 import twistthrottle.repositories.UserRepository;
+import twistthrottle.services.UserService;
 
 import java.util.Optional;
 
