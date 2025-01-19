@@ -18,7 +18,6 @@ public class Category extends BaseEntity {
     private String description;
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
-    private String imageUrl;
 
     public String getName() {
         return name;
@@ -44,21 +43,12 @@ public class Category extends BaseEntity {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public Category() {
     }
 
-    public Category(String name, twistthrottle.models.entities.enums.categoryType categoryType, String description, String imageUrl) {
+    public Category(String name, twistthrottle.models.entities.enums.categoryType categoryType, String description) {
         this.name = name;
         this.categoryType = categoryType;
         this.description = description;
-        this.imageUrl = imageUrl;
     }
 }
