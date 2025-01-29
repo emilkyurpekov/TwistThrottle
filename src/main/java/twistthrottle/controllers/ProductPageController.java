@@ -22,28 +22,23 @@ public class ProductPageController {
 
     @GetMapping("/products")
     public String getProducts(
-            @RequestParam(required = false) Long categoryId, // Optional parameter for filtering
+            @RequestParam(required = false) Long categoryId,
             Model model,
             HttpServletRequest request) {
 
         List<Product> products;
 
         if (categoryId != null) {
-            // If categoryId is provided, fetch products for that category
             products = productService.findByCategoryId(categoryId);
         } else {
-            // Otherwise, fetch all products
             products = productService.findAll();
         }
 
-        // Add products to the model
         model.addAttribute("products", products);
 
-        // Add categories to the model (to display category filters on the page)
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
 
-        // Check if the user is logged in
         Boolean isLoggedIn = (request.getSession().getAttribute("loggedInUser") != null);
         model.addAttribute("isLoggedIn", isLoggedIn);
 

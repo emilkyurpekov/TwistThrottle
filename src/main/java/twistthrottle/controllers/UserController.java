@@ -53,16 +53,13 @@ public class UserController {
     }
     @GetMapping("/profile")
     public String showProfilePage(HttpSession session, Model model) {
-        // Get the logged-in user from the session
         User user = (User) session.getAttribute("loggedInUser");
 
-        // Check if the user is logged in
         boolean isLoggedIn = user != null;
         if (!isLoggedIn) {
-            return "redirect:/login"; // Redirect to login page if not logged in
+            return "redirect:/login";
         }
 
-        // Map User entity to UserDTO (manual conversion here, or use a mapper)
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
