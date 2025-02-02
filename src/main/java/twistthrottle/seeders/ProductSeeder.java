@@ -54,18 +54,33 @@ public class ProductSeeder implements CommandLineRunner {
             product3.setCategory(accessories);
 
             Product product4 = new Product();
-            product4.setName("Akrapovic exhaust");
+            product4.setName("Akrapovic Honda exhaust");
             product4.setProductType(productType.PARTS);
             product4.setPrice(BigDecimal.valueOf(1200.00));
             product4.setStock(20);
             product4.setCategory(exhaustSystems);
 
             Product product5 = new Product();
-            product4.setName("Shifter");
-            product4.setProductType(productType.PARTS);
-            product4.setPrice(BigDecimal.valueOf(1200.00));
-            product4.setStock(20);
-            product4.setCategory(accessories);
+            product5.setName("Shifter");
+            product5.setProductType(productType.PARTS);
+            product5.setPrice(BigDecimal.valueOf(300.00));
+            product5.setStock(50);
+            product5.setCategory(accessories);
+
+
+            Product product6 = new Product();
+            product6.setName("Clutch");
+            product6.setProductType(productType.PARTS);
+            product6.setPrice(BigDecimal.valueOf(400.00));
+            product6.setStock(50);
+            product6.setCategory(accessories);
+
+            Product product7 = new Product();
+            product7.setName("Akrapovic BMW exhaust");
+            product7.setProductType(productType.PARTS);
+            product7.setPrice(BigDecimal.valueOf(1200.00));
+            product7.setStock(20);
+            product7.setCategory(exhaustSystems);
 
 
 
