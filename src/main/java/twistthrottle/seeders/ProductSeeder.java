@@ -53,6 +53,22 @@ public class ProductSeeder implements CommandLineRunner {
             product3.setStock(100);
             product3.setCategory(accessories);
 
+            Product product4 = new Product();
+            product4.setName("Akrapovic exhaust");
+            product4.setProductType(productType.PARTS);
+            product4.setPrice(BigDecimal.valueOf(1200.00));
+            product4.setStock(20);
+            product4.setCategory(exhaustSystems);
+
+            Product product5 = new Product();
+            product4.setName("Shifter");
+            product4.setProductType(productType.PARTS);
+            product4.setPrice(BigDecimal.valueOf(1200.00));
+            product4.setStock(20);
+            product4.setCategory(accessories);
+
+
+
             productRepository.saveAll(List.of(product1, product2, product3));
 
             System.out.println("Products have been seeded!");
