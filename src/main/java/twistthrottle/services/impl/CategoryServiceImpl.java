@@ -6,6 +6,8 @@ import twistthrottle.repositories.CategoryRepository;
 import twistthrottle.services.CategoryService;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
@@ -18,4 +20,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    @Override
+    public Optional<Category> findByName(String name) {
+        return categoryRepository.findByName(name);
+    }
+
 }
