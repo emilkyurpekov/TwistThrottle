@@ -9,6 +9,7 @@ import twistthrottle.models.entities.enums.productType;
 import twistthrottle.repositories.ProductRepository;
 import twistthrottle.services.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -48,8 +49,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAllByCategory(category);
     }
 
+
     @Override
-    public List<Product> findAllByPriceBetween(int minPrice, int maxPrice) {
+    public List<Product> findAllByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
         return productRepository.findAllByPriceBetween(minPrice,maxPrice);
     }
 

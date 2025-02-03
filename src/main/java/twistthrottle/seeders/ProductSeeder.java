@@ -98,10 +98,10 @@ public class ProductSeeder implements CommandLineRunner {
 
 
 
-            productRepository.saveAll(List.of(product1, product2, product3));
+            productRepository.saveAll(List.of(product1, product2, product3,product4,product5,product6,product7,product8,product9));
 
             System.out.println("Products have been seeded!");
-        } else {
+        }else {
             System.out.println("Products already exist. Skipping seeding.");
         }
     }
