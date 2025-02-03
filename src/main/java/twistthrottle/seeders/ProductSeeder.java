@@ -82,6 +82,20 @@ public class ProductSeeder implements CommandLineRunner {
             product7.setStock(20);
             product7.setCategory(exhaustSystems);
 
+            Product product8 = new Product();
+            product8.setName("Spark plugs");
+            product8.setProductType(productType.PARTS);
+            product8.setPrice(BigDecimal.valueOf(20.00));
+            product8.setStock(20);
+            product8.setCategory(engineComponents);
+
+            Product product9 = new Product();
+            product9.setName("Oil Filter");
+            product9.setProductType(productType.PARTS);
+            product9.setPrice(BigDecimal.valueOf(200.00));
+            product9.setStock(20);
+            product9.setCategory(engineComponents);
+
 
 
             productRepository.saveAll(List.of(product1, product2, product3));
