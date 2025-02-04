@@ -3,11 +3,9 @@ function toggleMotorcycles() {
     const motorcycleDisplayArea = document.getElementById('motorcycleDisplayArea');
 
     if (motorcycleDisplayArea.style.display === 'block') {
-        // Hide the motorcycle list
         motorcycleDisplayArea.style.display = 'none';
         button.textContent = 'Show Motorcycles';
     } else {
-        // Show the motorcycle list
         button.disabled = true;
 
         fetch('/motorcycles')
@@ -25,12 +23,10 @@ function toggleMotorcycles() {
 
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach((motorcycle, index) => {
-                        // Create a list item for each motorcycle
                         const listItem = document.createElement('li');
                         listItem.className = 'motorcycle-item';
                         listItem.textContent = `${motorcycle.make} ${motorcycle.model} - ${motorcycle.year}`;
 
-                        // Create a dropdown container for additional info
                         const dropdown = document.createElement('div');
                         dropdown.className = 'motorcycle-dropdown';
                         dropdown.style.display = 'none';
@@ -41,13 +37,11 @@ function toggleMotorcycles() {
                             <p><strong>Volume:</strong> ${motorcycle.volume}cc</p>
                         `;
 
-                        // Add click event to toggle dropdown
                         listItem.addEventListener('click', () => {
                             const isVisible = dropdown.style.display === 'block';
                             dropdown.style.display = isVisible ? 'none' : 'block';
                         });
 
-                        // Append the dropdown to the list item
                         listItem.appendChild(dropdown);
                         motorcycleList.appendChild(listItem);
                     });
