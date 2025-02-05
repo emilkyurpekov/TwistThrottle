@@ -25,8 +25,20 @@
             <a href="/register" >Register</a>
         </li>
     </ul>
-
-
+    <h1>Select a Category</h1>
 </nav>
+
+<div class="category-container">
+    <div th:each="category : ${categories}" class="category-card"
+         th:onclick="'redirectToCategory(' + ${category.id} + ')'">
+        <h2 th:text="${category.name}"></h2>
+        <p th:text="${category.description}"></p>
+    </div>
+</div>
+<script>
+    function redirectToCategory(categoryId) {
+        window.location.href = "/products?categoryId=" + categoryId;
+    }
+</script>
 </body>
 </html>
