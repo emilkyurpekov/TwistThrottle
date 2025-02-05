@@ -20,21 +20,8 @@ public class ProductPageController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/products")
-    public String getProducts(
-            @RequestParam(required = false) Long categoryId,
-            Model model,
-            HttpServletRequest request) {
-
-        List<Product> products;
-
-        if (categoryId != null) {
-            products = productService.findByCategoryId(categoryId);
-        } else {
-            products = productService.findAll();
-        }
-
-        model.addAttribute("products", products);
+    @GetMapping("/categories")
+    public String getCategories(Model model, HttpServletRequest request) {
 
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
@@ -42,7 +29,8 @@ public class ProductPageController {
         Boolean isLoggedIn = (request.getSession().getAttribute("loggedInUser") != null);
         model.addAttribute("isLoggedIn", isLoggedIn);
 
-        return "products";
+        return "categories";
     }
+
 
 }
