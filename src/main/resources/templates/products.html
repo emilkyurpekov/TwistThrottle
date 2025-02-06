@@ -43,7 +43,7 @@
     <h3 th:text="${product.name}"></h3>
     <p>Type: <span th:text="${product.productType}"></span></p>
     <p>Price: $<span th:text="${product.price}"></span></p>
-    <p>Stock: <span th:if ="${product.stock>0}"></span></p>
+    <p>Stock: <span th:text="${product.stock}"></span></p>
   </div>
 </div>
 </body>
