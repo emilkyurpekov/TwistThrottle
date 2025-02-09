@@ -1,6 +1,10 @@
 package twistthrottle.models.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import twistthrottle.models.entities.enums.orderStatus;
 import twistthrottle.models.entities.enums.paymentMethod;
 import java.util.Date;
@@ -10,7 +14,6 @@ import java.util.List;
 @Table(name = "orders")
 public class Order extends BaseEntity{
 
-    //fields:
     @Temporal(TemporalType.DATE)
     @Column(name = "order_date", nullable = false)
     private Date orderDate;

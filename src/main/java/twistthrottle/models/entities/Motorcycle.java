@@ -2,10 +2,18 @@ package twistthrottle.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import twistthrottle.models.entities.enums.motorcycleType;
 
 @Entity
 @Table(name = "motorcycles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Motorcycle extends BaseEntity{
     @Column(nullable = false)
     private String make;
@@ -30,74 +38,4 @@ public class Motorcycle extends BaseEntity{
     @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
-    public String getMake() {
-        return make;
-    }
-
-    public int getYear() {
-        return year;
-    }
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public motorcycleType getMotorcycleType() {
-        return motorcycleType;
-    }
-
-    public void setMotorcycleType(motorcycleType motorcycleType) {
-        this.motorcycleType = motorcycleType;
-    }
-
-    public int getHorsepower() {
-        return horsepower;
-    }
-
-    public void setHorsepower(int horsepower) {
-        this.horsepower = horsepower;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-    public double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
 }
