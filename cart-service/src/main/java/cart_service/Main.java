@@ -1,4 +1,4 @@
-package org.example;
+package cart_service;
 
 public class Main {
     public static void main(String[] args) {
