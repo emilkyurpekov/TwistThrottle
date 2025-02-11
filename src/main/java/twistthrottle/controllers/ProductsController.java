@@ -37,6 +37,6 @@ public class ProductsController {
 
         model.addAttribute("products", products);
         model.addAttribute("categories", categories);
-        return "products"; // products.html
+        return "products";
     }
 }
