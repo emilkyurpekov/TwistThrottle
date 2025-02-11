@@ -16,7 +16,7 @@ public class CategorySeeder implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (categoryRepository.count() == 0) {
             Category exhaustSystems = new Category(
                     "Exhaust Systems",

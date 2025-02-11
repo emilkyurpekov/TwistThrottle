@@ -23,7 +23,7 @@ public class ProductSeeder implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (productRepository.count() == 0) {
             Category exhaustSystems = categoryRepository.findByName("Exhaust Systems")
                     .orElseThrow(() -> new RuntimeException("Category 'Exhaust Systems' not found"));
