@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .cart-container {
+            width: 60%;
+            margin: auto;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .cart-summary {
+            font-size: 18px;
+            text-align: right;
+            margin-top: 20px;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+<h1>Your Shopping Cart</h1>
+
+<div class="cart-container">
+    <div th:each="cartItem : ${cart}" class="cart-item">
+        <div>
+            <h3 th:text="${cartItem.product.name}"></h3>
+            <p>Price: $<span th:text="${cartItem.product.price}"></span></p>
+            <p>Quantity: <span th:text="${cartItem.quantity}"></span></p>
+            <p>Total: $<span th:text="${cartItem.quantity * cartItem.product.price}"></span></p>
+        </div>
+
+        <form action="/cart/remove" method="post">
+            <input type="hidden" name="productId" th:value="${cartItem.product.id}" />
+            <button type="submit">Remove</button>
+        </form>
+    </div>
+
+    <div class="cart-summary">
+        <strong>Total Amount: $<span th:text="${#aggregates.sum(cart.![quantity * product.price])}"></span></strong>
+    </div>
+
+    <form action="/cart/checkout" method="post">
+        <label for="shippingAddress">Enter Shipping Address:</label>
+        <input type="text" id="shippingAddress" name="shippingAddress" required />
+        <button type="submit" style="background-color: green;">Confirm Order</button>
+    </form>
+</div>
+</body>
+</html>

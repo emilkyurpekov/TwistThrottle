@@ -42,5 +42,4 @@ public class NavigationController {
     public String adminLogin() {
         return "adminlogin";
     }
-
 }
