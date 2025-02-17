@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartClientController {
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
+    private final String CART_SERVICE_URL = "http://localhost:8082/api/cart";
 
     @GetMapping
     public String showCart(Model model) {
