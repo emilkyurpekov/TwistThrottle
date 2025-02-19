@@ -9,18 +9,18 @@ import twistthrottle.dtos.ProductDTO;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/cart")
 public class CartClientController {
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String CART_SERVICE_URL = "http://localhost:8082/api/cart";
+    private final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
 
     @GetMapping
-    public String showCart(Model model) {
-        List<CartItem> cart = Arrays.asList(restTemplate.getForObject(CART_SERVICE_URL, CartItem[].class));
-        model.addAttribute("cart", cart);
-        return "cart";
+    public List<CartItem> showCart() {
+        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(CART_SERVICE_URL, CartItem[].class)));
+
     }
 
     @PostMapping("/add")

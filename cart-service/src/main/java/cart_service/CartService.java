@@ -18,7 +18,6 @@ public class CartService {
         if (cartObject instanceof List<?>) {
             List<?> cartList = (List<?>) cartObject;
 
-            // Convert to List<CartItem> safely using Stream API
             List<CartItem> cart = cartList.stream()
                     .filter(obj -> obj instanceof CartItem)
                     .map(obj -> (CartItem) obj)
