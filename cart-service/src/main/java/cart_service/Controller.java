@@ -10,14 +10,15 @@ public class Controller {
 
     private final List<CartItem> cart = new ArrayList<>();
 
+    // ✅ GET: Fetch Cart Items
     @GetMapping
     public List<CartItem> getCart() {
         return cart;
     }
 
     @PostMapping("/add")
-    public String addToCart(@RequestBody ProductDTO product, @RequestParam int quantity) {
-        cart.add(new CartItem(product, quantity));
+    public String addToCart(@RequestBody ProductDTO product,@RequestParam double price, @RequestParam int quantity) {
+        cart.add(new CartItem(product, price, quantity));
         return "Product added!";
     }
 
