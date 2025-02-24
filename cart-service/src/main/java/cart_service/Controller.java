@@ -10,7 +10,6 @@ public class Controller {
 
     private final List<CartItem> cart = new ArrayList<>();
 
-    // ✅ GET: Fetch Cart Items
     @GetMapping
     public List<CartItem> getCart() {
         return cart;

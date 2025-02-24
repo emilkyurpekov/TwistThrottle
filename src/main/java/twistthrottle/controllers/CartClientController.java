@@ -18,22 +18,20 @@ public class CartClientController {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
 
-    // Fetch and display cart items
     @GetMapping
     public String showCart(Model model) {
         List<CartItem> cart = Arrays.asList(Objects.requireNonNull(
                 restTemplate.getForObject(CART_SERVICE_URL, CartItem[].class)));
         model.addAttribute("cart", cart);
-        return "cart"; // Ensure there's a 'cart.html' Thymeleaf template
+        return "cart";
     }
 
-    // Add a product to the cart
     @PostMapping("/add")
     public String addToCart(@RequestParam Long productId,
                             @RequestParam String name,
                             @RequestParam double price,
                             @RequestParam int quantity) {
-        ProductDTO product = new ProductDTO(productId, name, price);
+        ProductDTO product = new ProductDTO(productId, name, price,quantity);
         restTemplate.postForObject(
                 CART_SERVICE_URL + "/add?price=" + price + "&quantity=" + quantity,
                 product,
@@ -42,14 +40,12 @@ public class CartClientController {
         return "redirect:/cart";
     }
 
-    // Remove a product from the cart
     @PostMapping("/remove")
     public String removeFromCart(@RequestParam Long productId) {
         restTemplate.delete(CART_SERVICE_URL + "/remove/" + productId);
         return "redirect:/cart";
     }
 
-    // Checkout the cart
     @PostMapping("/checkout")
     public String confirmOrder(@RequestParam String shippingAddress, Model model) {
         String response = restTemplate.postForObject(
@@ -58,6 +54,6 @@ public class CartClientController {
                 String.class
         );
         model.addAttribute("message", response);
-        return "order-confirmation"; // Ensure there's an 'order-confirmation.html' Thymeleaf template
+        return "order-confirmation";
     }
 }

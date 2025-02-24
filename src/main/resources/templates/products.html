@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="stylesheet" href="/productpage.css"/>
   <meta charset="UTF-8">
   <title>Products</title>
-
 </head>
 <body>
-<div class = "twist-header">
+<div class="twist-header">
   <h1>TwistThrottle</h1>
   <p>Treat your motorcycle with selected parts</p>
 </div>
@@ -17,13 +16,13 @@
     <li><a href="/profile">My Profile</a></li>
     <li><a href="/about">Privacy</a></li>
     <li th:if="${isLoggedIn}">
-      <a href="/logout" >Logout</a>
-      <a href="/cart" >Cart</a>
+      <a href="/logout">Logout</a>
+      <a href="/cart">Cart</a>
       <a href="/products">Shop</a>
     </li>
     <li th:unless="${isLoggedIn}">
-      <a href="/login" >Login</a>
-      <a href="/register" >Register</a>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
     </li>
   </ul>
   <h1>Select a product</h1>
@@ -36,12 +35,22 @@
 </div>
 
 <div class="product-container">
-  <!-- Loop through each product and display it -->
   <div th:each="product : ${products}" class="product-card">
     <h3 th:text="${product.name}"></h3>
     <p>Type: <span th:text="${product.productType}"></span></p>
     <p>Price: $<span th:text="${product.price}"></span></p>
     <p>Stock: <span th:text="${product.stock}"></span></p>
+
+    <form th:action="@{/cart/add}" method="post">
+      <input type="hidden" name="productId" th:value="${product.id}" />
+      <input type="hidden" name="name" th:value="${product.name}" />
+      <input type="hidden" name="price" th:value="${product.price}" />
+
+      <!-- <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" value="1" min="1" /> -->
+
+      <button type="submit">Add to Cart</button>
+    </form>
   </div>
 </div>
 </body>

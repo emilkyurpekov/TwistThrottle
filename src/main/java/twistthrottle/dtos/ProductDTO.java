@@ -1,21 +1,19 @@
 package twistthrottle.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
     private Long id;
     private String name;
     private double price;
+    private int quantity;
 
-    public ProductDTO() {}
-
-    public ProductDTO(Long id, String name, double price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
 
 }
