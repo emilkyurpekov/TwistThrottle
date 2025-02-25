@@ -1,5 +1,7 @@
 package twistthrottle.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +24,12 @@ public class ProductsController {
     }
 
     @GetMapping("/products")
-    public String getProducts(@RequestParam(required = false) Long categoryId, Model model) {
+    public String getProducts(@RequestParam(required = false) Long categoryId, HttpServletRequest request, Model model) {
         List<Product> products;
         List<Category> categories = categoryRepository.findAll();
+        HttpSession session = request.getSession(false);
+        boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
+        model.addAttribute("isLoggedIn", isLoggedIn);
 
         if (categoryId != null) {
             products = productRepository.findByCategoryId(categoryId);

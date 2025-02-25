@@ -29,21 +29,21 @@
         </thead>
         <tbody>
         <tr th:each="item : ${cart}">
-            <td th:text="${item.name}"></td>
-            <td th:text="'$' + ${item.price}"></td>
+            <td th:text="${item.product.name}"></td>
+            <td th:text="'$' + ${item.product.price}"></td>
             <td>
-                <form th:action="@{/cart/add}" method="post" class="d-flex align-items-center">
-                    <input type="hidden" name="productId" th:value="${item.productId}">
-                    <input type="hidden" name="name" th:value="${item.name}">
-                    <input type="hidden" name="price" th:value="${item.price}">
-                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control w-50">
+                <form th:action="@{http://localhost:8081/api/cart/add}" method="post" class="d-flex align-items-center">
+                    <input type="hidden" name="productId" th:value="${item.product.id}">
+                    <input type="hidden" name="name" th:value="${item.product.name}">
+                    <input type="hidden" name="price" th:value="${item.product.price}">
+                    <input type="number" name="quantity" th:value="${item.product.quantity}" min="1" class="form-control w-50">
                     <button type="submit" class="btn btn-sm btn-primary ms-2">Update</button>
                 </form>
             </td>
-            <td th:text="'$' + ${item.price * item.quantity}"></td>
+            <td th:text="'$' + ${item.product.price * item.product.quantity}"></td>
             <td>
                 <form th:action="@{/cart/remove}" method="post">
-                    <input type="hidden" name="productId" th:value="${item.productId}">
+                    <input type="hidden" name="productId" th:value="${item.product.id}">
                     <button type="submit" class="btn btn-sm btn-danger">Remove</button>
                 </form>
             </td>
