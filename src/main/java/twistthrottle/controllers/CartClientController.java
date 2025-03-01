@@ -45,7 +45,15 @@ public class CartClientController {
         restTemplate.delete(CART_SERVICE_URL + "/remove/" + productId);
         return "redirect:/cart";
     }
-
+    @PostMapping("/update")
+    public String updateCartItem(@RequestParam Long productId, @RequestParam int quantity) {
+        restTemplate.postForObject(
+                CART_SERVICE_URL + "/update?productId=" + productId + "&quantity=" + quantity,
+                null,
+                String.class
+        );
+        return "redirect:/cart";
+    }
     @PostMapping("/checkout")
     public String confirmOrder(@RequestParam String shippingAddress, Model model) {
         String response = restTemplate.postForObject(
