@@ -1,9 +1,8 @@
 package cart_service;
 
 import jakarta.servlet.http.HttpSession;
-import cart_service.ProductDTO;
-import cart_service.CartItem;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,5 +58,16 @@ public class CartService {
 
     public void clearCart(HttpSession session) {
         session.removeAttribute(CART_SESSION_KEY);
+    }
+
+    public void updateItemQuantity(Long productId, int quantity, HttpSession session) {
+        List<CartItem> cartItems = getCart(session);
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId().equals(productId)) {
+                item.setQuantity(quantity);
+                session.setAttribute(CART_SESSION_KEY, cartItems);
+                return;
+            }
+        }
     }
 }

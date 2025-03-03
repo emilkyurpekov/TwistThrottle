@@ -1,5 +1,7 @@
 package twistthrottle.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +21,15 @@ public class CartClientController {
     private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
 
     @GetMapping
-    public String showCart(Model model) {
+    public String showCart(Model model, HttpServletRequest request) {
         List<CartItem> cart = Arrays.asList(Objects.requireNonNull(
                 restTemplate.getForObject(CART_SERVICE_URL, CartItem[].class)));
         model.addAttribute("cart", cart);
+        Boolean isLoggedIn = (request.getSession().getAttribute("loggedInUser") != null);
+        model.addAttribute("isLoggedIn", isLoggedIn);
+        if(!isLoggedIn){
+            return "login";
+        }
         return "cart";
     }
 
@@ -46,11 +53,13 @@ public class CartClientController {
         return "redirect:/cart";
     }
     @PostMapping("/update")
-    public String updateCartItem(@RequestParam Long productId, @RequestParam int quantity) {
+    public String updateCartItem(@RequestParam Long productId,
+                                 @RequestParam int quantity,
+                                 HttpSession session) {
+
         restTemplate.postForObject(
                 CART_SERVICE_URL + "/update?productId=" + productId + "&quantity=" + quantity,
-                null,
-                String.class
+                null, String.class
         );
         return "redirect:/cart";
     }
