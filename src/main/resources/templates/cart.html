@@ -66,44 +66,24 @@
         <tbody>
 
         <tr th:each="item : ${cart}">
-
             <td th:text="${item.product.name}"></td>
-
             <td th:text="'$' + ${item.product.price}"></td>
-
             <td>
-
                 <form th:action="@{http://localhost:8081/api/cart/add}" method="post" class="d-flex align-items-center">
-
                     <input type="hidden" name="productId" th:value="${item.product.id}">
-
                     <input type="hidden" name="name" th:value="${item.product.name}">
-
                     <input type="hidden" name="price" th:value="${item.product.price}">
-
-                    <input type="number" name="quantity" th:value="${item.product.quantity}" min="1"
-                           class="form-control w-50">
-
+                    <input type="number" name="quantity" th:value="${item.quantity}" min="1" class="form-control w-50 quantity-input">
                     <button type="submit" class="btn btn-sm btn-primary ms-2">Update</button>
-
                 </form>
-
             </td>
-
-            <td th:text="'$' + ${item.product.price * item.product.quantity}"></td>
-
+            <td th:text="'$' + ${item.product.price * item.quantity}"></td>
             <td>
-
                 <form th:action="@{/cart/remove}" method="post">
-
                     <input type="hidden" name="productId" th:value="${item.product.id}">
-
                     <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-
                 </form>
-
             </td>
-
         </tr>
 
         </tbody>
@@ -133,11 +113,16 @@
     </div>
 </div>
 <script>
-    const totalCost = document.querySelectorAll('.table tbody tr').reduce((sum, row) => {
+    const rows = document.querySelectorAll('.table tbody tr');
+    let totalCost = 0;
+    rows.forEach(row => {
         const price = parseFloat(row.querySelectorAll('td')[1].textContent.replace('$', ''));
-        const quantity = parseInt(row.querySelectorAll('td')[2].textContent);
-        return sum + (price * quantity);
-    }, 0);
+
+        const quantityInput = row.querySelector('.quantity-input');
+        const quantity = parseInt(quantityInput.value);
+
+        totalCost += price * quantity;
+    });
 
     document.getElementById('total-cost').textContent = '$' + totalCost.toFixed(2);
 </script>
