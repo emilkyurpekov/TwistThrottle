@@ -69,7 +69,7 @@
             <td th:text="${item.product.name}"></td>
             <td th:text="'$' + ${item.product.price}"></td>
             <td>
-                <form th:action="@{http://localhost:8081/api/cart/add}" method="post" class="d-flex align-items-center">
+                <form th:action="@{/cart/update}" method="post" class="d-flex align-items-center">
                     <input type="hidden" name="productId" th:value="${item.product.id}">
                     <input type="hidden" name="name" th:value="${item.product.name}">
                     <input type="hidden" name="price" th:value="${item.product.price}">
