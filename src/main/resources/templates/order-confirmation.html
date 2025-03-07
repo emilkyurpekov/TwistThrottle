@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="cart.css">
+
+    <style>
+    body {
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+    .message {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        color: #155724;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        text-align: center;
+    }
+    .error-message {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+    }
+
+    .back-to-shop {
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        padding: 10px;
+        text-align: center;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        border: none;
+    }
+    .back-to-shop:hover {
+        background-color: #0056b3;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Order Confirmation</h1>
+
+    <div th:if="${message}" class="message" th:classappend="${message.startsWith('Error') ? 'error-message' : ''}">
+        <span th:text="${message}"></span>
+    </div>
+    <div th:unless="${message.startsWith('Error')}">
+        <a href="/categories" class="back-to-shop">Continue Shopping</a>
+    </div>
+</div>
+
+</body>
+</html>

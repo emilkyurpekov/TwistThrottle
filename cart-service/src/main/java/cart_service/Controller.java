@@ -1,6 +1,8 @@
+// cart_service/Controller.java
 package cart_service;
 
-import jakarta.servlet.http.HttpSession;
+import cart_service.entities.CartItem;
+import cart_service.entities.Product; // Keep Product, it represents items IN THE CART
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cart")
 public class Controller {
-    private final CartService cartService;  // You might not be using this yet, but that's fine
-    private final List<CartItem> cart = new ArrayList<>();
 
-    public Controller(CartService cartService) {
-        this.cartService = cartService;
-    }
+    private final List<CartItem> cart = new ArrayList<>(); // In-memory cart
 
     @GetMapping
     public List<CartItem> getCart() {
@@ -22,22 +20,22 @@ public class Controller {
 
     @PostMapping("/add")
     public String addToCart(@RequestBody ProductDTO product) {
-        cart.add(new CartItem(product, product.getPrice(), product.getQuantity()));
-        return "Product added!";
+        cart.add(new CartItem(mapDtoToEntity(product), product.getPrice(), product.getQuantity()));
+        return "Product added to cart!";
+    }
+    private ProductD mapDtoToEntity(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productDTO.getId());
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setQuantity(product.getQuantity());
+        return product;
     }
 
     @DeleteMapping("/remove/{productId}")
     public String removeFromCart(@PathVariable Long productId) {
         cart.removeIf(item -> item.getProduct().getId().equals(productId));
-        return "Product removed!";
-    }
-    private CartItem findCartItem(Long productId) {
-        for (CartItem item : cart) {
-            if (item.getProduct().getId().equals(productId)) {
-                return item;
-            }
-        }
-        return null;
+        return "Product removed from cart!";
     }
 
     @PostMapping("/update")
@@ -49,5 +47,18 @@ public class Controller {
         } else {
             return "Error: Cart item not found.";
         }
+    }
+
+    private CartItem findCartItem(Long productId) {
+        for (CartItem item : cart) {
+            if (item.getProduct().getId().equals(productId)) {
+                return item;
+            }
+        }
+        return null;
+    }
+    @PostMapping("/checkout")
+    public List<CartItem> checkout() {
+        return cart;
     }
 }
