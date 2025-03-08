@@ -28,10 +28,10 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailsRepository;
-    private final UserRepository userRepository; // Needed to associate the order with a User
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    @Autowired  // Use constructor injection for better testability
+    @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, OrderDetailsRepository orderDetailsRepository,
                             UserRepository userRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
