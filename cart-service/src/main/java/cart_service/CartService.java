@@ -14,8 +14,7 @@ public class CartService {
     public List<CartItem> getCart(HttpSession session) {
         Object cartObject = session.getAttribute(CART_SESSION_KEY);
 
-        if (cartObject instanceof List<?>) {
-            List<?> cartList = (List<?>) cartObject;
+        if (cartObject instanceof List<?> cartList) {
 
             List<CartItem> cart = cartList.stream()
                     .filter(obj -> obj instanceof CartItem)
@@ -36,7 +35,7 @@ public class CartService {
         boolean productExists = false;
 
         for (CartItem item : cart) {
-            if (item.getProduct().getId().equals(product.getId())) {
+            if (item.getProduct().getProductId().equals(product.getProductId())) {
                 item.setQuantity(item.getQuantity() + quantity);
                 productExists = true;
                 break;
@@ -52,7 +51,7 @@ public class CartService {
 
     public void removeFromCart(HttpSession session, Long productId) {
         List<CartItem> cart = getCart(session);
-        cart.removeIf(item -> item.getProduct().getId().equals(productId));
+        cart.removeIf(item -> item.getProduct().getProductId().equals(productId));
         session.setAttribute(CART_SESSION_KEY, cart);
     }
 
@@ -63,7 +62,7 @@ public class CartService {
     public void updateItemQuantity(Long productId, int quantity, HttpSession session) {
         List<CartItem> cartItems = getCart(session);
         for (CartItem item : cartItems) {
-            if (item.getProduct().getId().equals(productId)) {
+            if (item.getProduct().getProductId().equals(productId)) {
                 item.setQuantity(quantity);
                 session.setAttribute(CART_SESSION_KEY, cartItems);
                 return;

@@ -2,7 +2,6 @@ package twistthrottle.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +22,14 @@ public class CartClientController {
 
     @GetMapping
     public String showCart(Model model, HttpServletRequest request) {
-        ResponseEntity<CartItem[]> response = restTemplate.getForEntity(CART_SERVICE_URL, CartItem[].class);
-        List<CartItem> cartItems = Arrays.asList(Objects.requireNonNull(response.getBody()));
-
-
+        List<CartItem> cart = Arrays.asList(Objects.requireNonNull(
+                restTemplate.getForObject(CART_SERVICE_URL, CartItem[].class)));
+        model.addAttribute("cart", cart);
         Boolean isLoggedIn = (request.getSession().getAttribute("loggedInUser") != null);
         model.addAttribute("isLoggedIn", isLoggedIn);
-
-        if (!isLoggedIn) {
+        if(!isLoggedIn){
             return "login";
         }
-
-        model.addAttribute("cart", cartItems);
         return "cart";
     }
 
@@ -43,8 +38,12 @@ public class CartClientController {
                             @RequestParam String name,
                             @RequestParam double price,
                             @RequestParam int quantity) {
-        ProductDTO product = new ProductDTO(productId, name, price, quantity);
-        restTemplate.postForObject(CART_SERVICE_URL + "/add", product, String.class);
+        ProductDTO product = new ProductDTO(productId, name, price,quantity);
+        restTemplate.postForObject(
+                CART_SERVICE_URL + "/add?price=" + price + "&quantity=" + quantity,
+                product,
+                String.class
+        );
         return "redirect:/cart";
     }
 
@@ -53,26 +52,21 @@ public class CartClientController {
         restTemplate.delete(CART_SERVICE_URL + "/remove/" + productId);
         return "redirect:/cart";
     }
-
     @PostMapping("/update")
     public String updateCartItem(@RequestParam Long productId,
-                                 @RequestParam int quantity, @RequestParam String name, @RequestParam double price,
+                                 @RequestParam int quantity,
                                  HttpSession session) {
-        ProductDTO productDTO = new ProductDTO(productId, name, price, quantity);
 
-        restTemplate.postForObject(CART_SERVICE_URL + "/update", productDTO, String.class);
+        restTemplate.postForObject(
+                CART_SERVICE_URL + "/update?productId=" + productId + "&quantity=" + quantity,
+                null, String.class
+        );
         return "redirect:/cart";
     }
-
     @PostMapping("/checkout")
-    public String confirmOrder(@RequestParam String shippingAddress, Model model, HttpSession session) {
-        String userEmail = (String) session.getAttribute("loggedInUser");
-        if (userEmail == null) {
-            return "redirect:/login";
-        }
-
+    public String confirmOrder(@RequestParam String shippingAddress, Model model) {
         String response = restTemplate.postForObject(
-                CART_SERVICE_URL + "/checkout?shippingAddress=" + shippingAddress + "&userEmail=" + userEmail,
+                CART_SERVICE_URL + "/checkout?shippingAddress=" + shippingAddress,
                 null,
                 String.class
         );
