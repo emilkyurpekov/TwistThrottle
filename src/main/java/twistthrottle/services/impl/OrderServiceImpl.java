@@ -68,8 +68,8 @@ public class OrderServiceImpl implements OrderService {
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrder(order);
 
-            Optional<Product> productOptional = productRepository.findById(cartItem.getProduct().getId());
-            Product product = productOptional.orElseThrow(() -> new IllegalArgumentException("Product with ID " + cartItem.getProduct().getId() + " not found."));
+            Optional<Product> productOptional = productRepository.findById(cartItem.getProduct().getProductId());
+            Product product = productOptional.orElseThrow(() -> new IllegalArgumentException("Product with ID " + cartItem.getProduct().getProductId() + " not found."));
 
             orderDetails.setProduct(product);
             orderDetails.setQuantity(cartItem.getQuantity());
