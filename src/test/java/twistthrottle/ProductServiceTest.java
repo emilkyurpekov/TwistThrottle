@@ -24,7 +24,7 @@ class ProductServiceTest {
     private ProductRepository productRepository;
 
     @Autowired
-    private ProductServiceImpl productServiceImpl; // Autowire the implementation class
+    private ProductServiceImpl productServiceImpl;
 
     @Test
     void updateProductStock_ValidProductId_ValidStock() {

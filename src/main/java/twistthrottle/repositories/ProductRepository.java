@@ -1,13 +1,11 @@
 package twistthrottle.repositories;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
 import twistthrottle.models.entities.enums.productType;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +16,9 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     void delete(Product product);
     List<Product> findAllByProductType(productType productType);
     List<Product> findAllByCategory(Category category);
-    List<Product> findAllByPriceBetween(BigDecimal price, BigDecimal price2);
+    List<Product> findAllByPriceBetween(int price, int price2);
     List<Product> findProductByName(String name);
     List<Product> findAllByOrderByPriceDesc();
     List<Product> findByCategoryId(Long categoryId);
-
+    List<Product> findProductById(Long id);
 }

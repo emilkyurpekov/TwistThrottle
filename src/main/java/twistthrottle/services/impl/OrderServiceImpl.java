@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import twistthrottle.dtos.CartItem;
+import twistthrottle.dtos.ProductDTO;
 import twistthrottle.models.entities.Order;
 import twistthrottle.models.entities.OrderDetails;
 import twistthrottle.models.entities.Product;
@@ -17,6 +18,7 @@ import twistthrottle.repositories.ProductRepository;
 import twistthrottle.repositories.UserRepository;
 import twistthrottle.services.OrderService;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional // Ensures atomicity of the operation
+    @Transactional
     public Order createOrder(List<CartItem> cartItems, String shippingAddress, String billingAddress, String userEmail) {
         if (cartItems == null || cartItems.isEmpty()) {
             throw new IllegalArgumentException("Cart items cannot be null or empty.");
@@ -102,6 +104,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findOrdersByDateRange(Date startDate, Date endDate) {
         return orderRepository.findByOrderDateBetween(startDate, endDate);
+    }
+    private Product convertDtoToEntity(ProductDTO productDTO) {
+        Product product = new Product();
+        // This is essential!  Map the fields from the DTO to the entity.
+        try {
+            Field idField = Product.class.getDeclaredField("productId");
+            idField.setAccessible(true);
+            idField.set(product, productDTO.getProductId());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Error setting ID on mock Product", e);
+        }
+
+        product.setName(productDTO.getName());
+        product.setPrice(BigDecimal.valueOf(productDTO.getPrice()));
+        product.setStock(productDTO.getQuantity());
+        return product;
     }
     @Override
     public List<Order> findOrdersByBillingAddress(String billingAddress){
