@@ -107,14 +107,7 @@ public class OrderServiceImpl implements OrderService {
     }
     private Product convertDtoToEntity(ProductDTO productDTO) {
         Product product = new Product();
-        try {
-            Field idField = Product.class.getDeclaredField("productId");
-            idField.setAccessible(true);
-            idField.set(product, productDTO.getProductId());
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Error setting ID on mock Product", e);
-        }
-
+        product.setId(productDTO.getProductId());
         product.setName(productDTO.getName());
         product.setPrice(BigDecimal.valueOf(productDTO.getPrice()));
         product.setStock(productDTO.getQuantity());

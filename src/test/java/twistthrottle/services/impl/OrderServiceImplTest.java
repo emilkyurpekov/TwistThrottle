@@ -17,6 +17,7 @@ import twistthrottle.repositories.OrderRepository;
 import twistthrottle.repositories.ProductRepository;
 import twistthrottle.repositories.UserRepository;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -161,7 +162,21 @@ class OrderServiceImplTest {
         assertNotNull(foundOrders);
         assertEquals(1, foundOrders.size());
     }
+    @Test
+    void testConvertDtoToEntity() throws Exception {
+        ProductDTO productDTO = new ProductDTO(1L, "Test Product", 100.0, 10);
 
+        Method method = OrderServiceImpl.class.getDeclaredMethod("convertDtoToEntity", ProductDTO.class);
+        method.setAccessible(true);
+
+        Product product = (Product) method.invoke(orderService, productDTO);
+
+        assertNotNull(product);
+        assertEquals(1L, product.getId());
+        assertEquals("Test Product", product.getName());
+        assertEquals(BigDecimal.valueOf(100.0), product.getPrice());
+        assertEquals(10, product.getStock());
+    }
     @Test
     void testFindOrdersByBillingAddress() {
         List<Order> orders = List.of(mockOrder);
