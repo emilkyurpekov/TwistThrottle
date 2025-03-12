@@ -107,7 +107,6 @@ public class OrderServiceImpl implements OrderService {
     }
     private Product convertDtoToEntity(ProductDTO productDTO) {
         Product product = new Product();
-        // This is essential!  Map the fields from the DTO to the entity.
         try {
             Field idField = Product.class.getDeclaredField("productId");
             idField.setAccessible(true);

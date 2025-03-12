@@ -1,7 +1,9 @@
 package twistthrottle.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import twistthrottle.dtos.ProductDTO;
 import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
 import twistthrottle.models.entities.enums.productType;
@@ -21,4 +23,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findAllByOrderByPriceDesc();
     List<Product> findByCategoryId(Long categoryId);
     List<Product> findProductById(Long id);
+    ProductDTO findProductDTOById(@Param("id") Long id);
 }
