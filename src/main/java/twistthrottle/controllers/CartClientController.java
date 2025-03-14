@@ -65,15 +65,14 @@ public class CartClientController {
 
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED); // Or APPLICATION_JSON if you switch
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-            // No request body needed for URL parameters
             HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
 
             restTemplate.exchange(
                     CART_SERVICE_URL + "/update?productId=" + productId + "&quantity=" + quantity,
-                    HttpMethod.PUT, // Use PUT
+                    HttpMethod.PUT,
                     requestEntity,
                     String.class
             );
@@ -96,9 +95,15 @@ public class CartClientController {
         return "redirect:/cart";
     }
     @PostMapping("/checkout")
-    public String confirmOrder(@RequestParam String shippingAddress, Model model) {
+    public String confirmOrder(@RequestParam String shippingAddress, Model model, HttpSession session) {
+        String userEmail = (String) session.getAttribute("loggedInUserEmail");
+
+        if (userEmail == null) {
+            return "redirect:/login";
+        }
+
         String response = restTemplate.postForObject(
-                CART_SERVICE_URL + "/checkout?shippingAddress=" + shippingAddress,
+                CART_SERVICE_URL + "/checkout?shippingAddress=" + shippingAddress + "&userEmail=" + userEmail,
                 null,
                 String.class
         );

@@ -1,11 +1,14 @@
 package twistthrottle;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.http.SessionCreationPolicy;
 
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -17,7 +20,9 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home", true)
                         .permitAll())
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout"));
+                        .logoutSuccessUrl("/login?logout"))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
         return http.build();
     }
@@ -25,12 +30,10 @@ public class SecurityConfig {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .logout(logout -> logout
-                        .logoutUrl("/logout")  // The URL to trigger logout
-                        .logoutSuccessUrl("/home")  // Where to go after logout
-                        .deleteCookies("JSESSIONID")  // Optional: Delete session cookie
-                        .invalidateHttpSession(true)  // Invalidate session
-                )
-        // other configurations
-        ;
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/home")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                );
     }
 }

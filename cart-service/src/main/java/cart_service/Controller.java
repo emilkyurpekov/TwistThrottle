@@ -44,4 +44,15 @@ public class Controller {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found in cart.");
     }
+    @PostMapping("/checkout")
+    public ResponseEntity<String> checkout(@RequestParam String shippingAddress, @RequestParam String userEmail) {
+        if (shippingAddress == null || shippingAddress.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Shipping address is required.");
+        }
+        if (userEmail == null || userEmail.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("User email is required.");
+        }
+
+        return ResponseEntity.ok("Order confirmed for user " + userEmail + " with shipping to " + shippingAddress);
+    }
 }
