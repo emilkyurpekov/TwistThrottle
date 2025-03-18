@@ -55,4 +55,9 @@ public class Controller {
 
         return ResponseEntity.ok("Order confirmed for user " + userEmail + " with shipping to " + shippingAddress);
     }
+    @PostMapping("/clear")
+    public ResponseEntity<String> clearCart() {
+        cart.clear();
+        return ResponseEntity.ok("Cart cleared");
+    }
 }

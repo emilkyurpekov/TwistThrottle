@@ -1,11 +1,10 @@
-// twistthrottle/services/impl/OrderServiceImpl.java
 package twistthrottle.services.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import twistthrottle.dtos.CartItem;
-import twistthrottle.dtos.ProductDTO;
 import twistthrottle.models.entities.Order;
 import twistthrottle.models.entities.OrderDetails;
 import twistthrottle.models.entities.Product;
@@ -14,11 +13,9 @@ import twistthrottle.models.entities.enums.orderStatus;
 import twistthrottle.models.entities.enums.paymentMethod;
 import twistthrottle.repositories.OrderDetailsRepository;
 import twistthrottle.repositories.OrderRepository;
-import twistthrottle.repositories.ProductRepository;
 import twistthrottle.repositories.UserRepository;
 import twistthrottle.services.OrderService;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,20 +28,20 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailsRepository;
     private final UserRepository userRepository;
-    private final ProductRepository productRepository;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, OrderDetailsRepository orderDetailsRepository,
-                            UserRepository userRepository, ProductRepository productRepository) {
+                            UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.orderDetailsRepository = orderDetailsRepository;
         this.userRepository = userRepository;
-        this.productRepository = productRepository;
     }
 
     @Override
     @Transactional
-    public Order createOrder(List<CartItem> cartItems, String shippingAddress, String billingAddress, String userEmail) {
+    public Order createOrder(List<CartItem> cartItems, String shippingAddress, String userEmail) {
         if (cartItems == null || cartItems.isEmpty()) {
             throw new IllegalArgumentException("Cart items cannot be null or empty.");
         }
@@ -59,9 +56,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(new Date());
         order.setOrderStatus(orderStatus.PENDING);
         order.setTotalPrice(calculateTotalPrice(cartItems));
-        order.setPaymentMethod(paymentMethod.CREDIT_CARD);
+        order.setPaymentMethod(paymentMethod.CREDIT_CARD); // You should get this from the request
         order.setShippingAddress(shippingAddress);
-        order.setBillingAddress(billingAddress != null ? billingAddress : shippingAddress);
+        order.setBillingAddress(shippingAddress); // Set billing address
         order.setUser(user);
         order = orderRepository.save(order);
 
@@ -69,10 +66,11 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem cartItem : cartItems) {
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrder(order);
-
-            Optional<Product> productOptional = productRepository.findById(cartItem.getProduct().getProductId());
-            Product product = productOptional.orElseThrow(() -> new IllegalArgumentException("Product with ID " + cartItem.getProduct().getProductId() + " not found."));
-
+            //Fetch product from db.
+            Product product = new Product();
+            product.setName(cartItem.getProduct().getName());
+            product.setId(cartItem.getProduct().getProductId());
+            product.setPrice(BigDecimal.valueOf(cartItem.getPrice()));
             orderDetails.setProduct(product);
             orderDetails.setQuantity(cartItem.getQuantity());
             orderDetails.setUnitPrice(BigDecimal.valueOf(cartItem.getPrice()));
@@ -82,6 +80,9 @@ public class OrderServiceImpl implements OrderService {
         orderDetailsRepository.saveAll(orderDetailsList);
 
         order.setOrderDetails(orderDetailsList);
+
+        // Clear the cart *after* successful order creation
+        clearCart();
         return order;
     }
     private double calculateTotalPrice(List<CartItem> cartItems) {
@@ -105,14 +106,6 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findOrdersByDateRange(Date startDate, Date endDate) {
         return orderRepository.findByOrderDateBetween(startDate, endDate);
     }
-    private Product convertDtoToEntity(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setId(productDTO.getProductId());
-        product.setName(productDTO.getName());
-        product.setPrice(BigDecimal.valueOf(productDTO.getPrice()));
-        product.setStock(productDTO.getQuantity());
-        return product;
-    }
     @Override
     public List<Order> findOrdersByBillingAddress(String billingAddress){
         return orderRepository.findOrderByBillingAddressContaining(billingAddress);
@@ -121,5 +114,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderById(Long orderId) {
         return orderRepository.findById(orderId).get();
+    }
+
+    private void clearCart() {
+        try {
+            restTemplate.postForEntity(CART_SERVICE_URL + "/clear", null, String.class);
+        } catch (Exception e) {
+            System.err.println("Error clearing cart: " + e.getMessage());
+        }
     }
 }

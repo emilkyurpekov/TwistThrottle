@@ -37,10 +37,6 @@ public class CategorySeeder implements CommandLineRunner {
             categoryRepository.save(exhaustSystems);
             categoryRepository.save(engineComponents);
             categoryRepository.save(accessories);
-
-            System.out.println("Categories have been seeded!");
-        } else {
-            System.out.println("Categories already exist. Skipping seeding.");
         }
     }
 }

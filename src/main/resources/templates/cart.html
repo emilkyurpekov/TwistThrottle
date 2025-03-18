@@ -71,7 +71,7 @@
 
     <div th:if="${not cart.empty}" class="mt-4">
         <h4>Checkout</h4>
-        <form th:action="@{/cart/checkout}" method="post">
+        <form th:action="@{/orderConfirmation}" method="post">
             <div class="mb-3">
                 <label for="shippingAddress" class="form-label">Shipping Address</label>
                 <input type="text" id="shippingAddress" name="shippingAddress" class="form-control" required />
