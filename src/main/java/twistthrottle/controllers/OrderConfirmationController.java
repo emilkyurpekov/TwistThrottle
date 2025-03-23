@@ -52,16 +52,15 @@ public class OrderConfirmationController {
         List<CartItem> cartItems = cartResponse.getBody();
 
         if (cartItems == null || cartItems.isEmpty()) {
-            // Handle empty cart (maybe redirect back to cart with an error message)
             model.addAttribute("message", "Your cart is empty.");
-            return "redirect:/cart"; // Assuming you have a /cart endpoint
+            return "redirect:/cart";
         }
 
 
         try {
             Order order = orderService.createOrder(cartItems, shippingAddress, loggedInUser.getEmail());
             model.addAttribute("order", order);
-            model.addAttribute("message", "Order confirmed successfully! Your order ID is: " + order.getId());
+            model.addAttribute("message", "Order confirmed successfully! Your order number is: " + order.getId());
         } catch (Exception e) {
             model.addAttribute("message", "Error creating order: " + e.getMessage());
             return "error-page";

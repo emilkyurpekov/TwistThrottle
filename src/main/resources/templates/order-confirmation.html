@@ -67,7 +67,7 @@
 
     <div th:unless="${message.startsWith('Error')}">
         <p>
-            <strong>Thank you for your order, <span th:text="${user.firstName} ${user.lastName}"></span>!</strong>
+            <strong>Thank you for your order,<span th:text="${user.firstName + ' ' + user.lastName}"></span></strong>
         </p>
         <p>
             <strong>Email:</strong> <span th:text="${user.email}"></span>
