@@ -12,4 +12,5 @@ public interface OrderService {
     List<Order> findOrdersByDateRange(java.util.Date startDate, java.util.Date endDate);
     List<Order> findOrdersByBillingAddress(String billingAddress);
     Order findOrderById(Long orderId);
+    public List<Order> getOrdersByUser(Long userId);
 }

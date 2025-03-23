@@ -1,13 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/profile.css">
     <script src="/js/motorcyclesList.js"></script>
     <meta charset="UTF-8">
     <title>My Profile</title>
+    <style>ders-section {
+        margin-top: 20px;
+    }
+
+    .orders-section table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .orders-section th, .orders-section td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .orders-section th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    .orders-section tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .orders-section tr:hover {
+        background-color: #f1f1f1;
+    }
+    </style>
+    <script>
+        function toggleOrders() {
+            const ordersSection = document.getElementById("ordersSection");
+            if (ordersSection.style.display === "none") {
+                ordersSection.style.display = "block";
+            } else {
+                ordersSection.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
-<div class = "twist-header">
+<div class="twist-header">
     <h1>TwistThrottle</h1>
     <p>Treat your motorcycle with selected parts</p>
 </div>
@@ -17,24 +56,25 @@
         <li><a href="/profile">My Profile</a></li>
         <li><a href="/about">Privacy</a></li>
         <li th:if="${isLoggedIn}">
-            <a href="/logout" >Logout</a>
-            <a href="/cart" >Cart</a>
+            <a href="/logout">Logout</a>
+            <a href="/cart">Cart</a>
             <a href="/categories">Shop</a>
         </li>
         <li th:unless="${isLoggedIn}">
-            <a href="/login" >Login</a>
-            <a href="/register" >Register</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
         </li>
     </ul>
 </nav>
 <div class="profile-container">
     <h1>My Profile</h1>
     <div class="profile-details">
-        <p><strong>Username:</strong><span th:text="${user.username}">Username</span>
+        <p><strong>Username:</strong><span th:text="${user.username}">Username</span></p>
         <p><strong>Email:</strong>  <span th:text="${user.email}">user@example.com</span></p>
-        <p><strong>First name:</strong><span th:text ="${user.firstName}"></span></p>
-        <p><strong>Last name:</strong><span th:text ="${user.lastName}"></span></p>
+        <p><strong>First name:</strong><span th:text="${user.firstName}"></span></p>
+        <p><strong>Last name:</strong><span th:text="${user.lastName}"></span></p>
     </div>
+
     <div id="addMotorcycleForm" style="display:none;">
         <form action="/addMotorcycle" method="POST">
             <label for="make">Make:</label>
@@ -45,7 +85,6 @@
 
             <label for="year">Year:</label>
             <input type="number" id="year" name="year">
-
 
             <label for="motorcycleType">Type:</label>
             <select id="motorcycleType" name="motorcycleType">
@@ -66,20 +105,49 @@
 
             <button type="submit">Add Motorcycle</button>
         </form>
-
     </div>
+
     <div th:if="${errorMessage}" th:text="${errorMessage}" class="errorMessage"></div>
     <div th:if="${successMessage}" th:text="${successMessage}" class="successMessage"></div>
+
     <div class="actions">
         <button onclick="document.getElementById('addMotorcycleForm').style.display='block'">Add Motorcycle</button>
         <button onclick="editProfile()">Edit Profile</button>
         <button onclick="changePassword()">Change Password</button>
+        <button onclick="toggleOrders()">My Orders</button>
         <button id="showMotorcyclesButton" onclick="toggleMotorcycles()">Show Motorcycles</button>
+    </div>
 
+    <div id="ordersSection" style="display: none;">
+        <h2>My Orders</h2>
+        <div th:if="${orders.empty}">
+            <p>You have no orders yet.</p>
+        </div>
+        <div th:unless="${orders.empty}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${#dates.format(order.orderDate, 'dd MMM yyyy')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="motorcycleDisplayArea" style="display: none;">
+    <ul id="motorcycles" class="motorcycle-list"></ul>
     </div>
 </div>
-<div id="motorcycleDisplayArea" style="display: none;">
-    <ul id="motorcycles" class="motorcycle-list"></ul>
-</div>
+
 </body>
+
 </html>

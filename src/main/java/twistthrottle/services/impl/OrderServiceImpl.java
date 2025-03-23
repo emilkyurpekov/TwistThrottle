@@ -116,6 +116,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(orderId).get();
     }
 
+    @Override
+    public List<Order> getOrdersByUser(Long userId) {
+        return orderRepository.findByUserId(userId);
+    }
+
     private void clearCart() {
         try {
             restTemplate.postForEntity(CART_SERVICE_URL + "/clear", null, String.class);

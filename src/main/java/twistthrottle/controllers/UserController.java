@@ -9,19 +9,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import twistthrottle.dtos.UserDTO;
+import twistthrottle.models.entities.Order;
 import twistthrottle.models.entities.User;
 import twistthrottle.services.impl.MotorcycleServiceImpl;
+import twistthrottle.services.impl.OrderServiceImpl;
 import twistthrottle.services.impl.UserServiceImpl;
+
+import java.util.List;
 
 @Controller
 public class UserController {
     @Autowired
     private final UserServiceImpl userService;
     private final MotorcycleServiceImpl motorcycleService;
-    public UserController(UserServiceImpl userService, MotorcycleServiceImpl motorcycleService) {
+    private final OrderServiceImpl orderService;
+    public UserController(UserServiceImpl userService, MotorcycleServiceImpl motorcycleService, OrderServiceImpl orderService) {
         this.userService = userService;
 
         this.motorcycleService = motorcycleService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/register")
@@ -59,6 +65,10 @@ public class UserController {
         if (!isLoggedIn) {
             return "redirect:/login";
         }
+        List<Order> userOrders = orderService.getOrdersByUser(user.getId());
+
+
+
 
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
@@ -66,7 +76,7 @@ public class UserController {
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
 
-
+        model.addAttribute("orders", userOrders);
         model.addAttribute("user", userDTO);
         model.addAttribute("isLoggedIn", isLoggedIn);
 
