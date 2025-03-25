@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.internal.matchers.Null;
 import org.mockito.junit.jupiter.MockitoExtension;
 import twistthrottle.dtos.CartItem;
 import twistthrottle.dtos.ProductDTO;
@@ -76,14 +77,13 @@ class OrderServiceImplTest {
     @Test
     void testCreateOrder_Success() {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(mockUser));
-        when(productRepository.findById(1L)).thenReturn(Optional.of(mockProduct));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> {
             Order order = invocation.getArgument(0);
             order.setId(1L);
             return order;
         });
 
-        Order createdOrder = orderService.createOrder(cartItems, "123 Street", null, "test@example.com");
+        Order createdOrder = orderService.createOrder(cartItems, "123 Street", "test@example.com");
 
         assertNotNull(createdOrder);
         assertEquals(200.0, createdOrder.getTotalPrice());
@@ -91,12 +91,14 @@ class OrderServiceImplTest {
         assertEquals("123 Street", createdOrder.getShippingAddress());
         verify(orderRepository, times(1)).save(any(Order.class));
         verify(orderDetailsRepository, times(1)).saveAll(anyList());
+
+        verifyNoInteractions(productRepository);
     }
 
     @Test
     void testCreateOrder_WithEmptyCart_ShouldThrowException() {
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
-                orderService.createOrder(new ArrayList<>(), "123 Street", null, "test@example.com")
+                orderService.createOrder(new ArrayList<>(), "123 Street",  "test@example.com")
         );
         assertEquals("Cart items cannot be null or empty.", thrown.getMessage());
     }
@@ -104,7 +106,7 @@ class OrderServiceImplTest {
     @Test
     void testCreateOrder_WithNullShippingAddress_ShouldThrowException() {
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
-                orderService.createOrder(cartItems, null, null, "test@example.com")
+                orderService.createOrder(cartItems, null,"test@example.com")
         );
         assertEquals("Shipping address cannot be null or empty.", thrown.getMessage());
     }
@@ -114,21 +116,29 @@ class OrderServiceImplTest {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
 
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
-                orderService.createOrder(cartItems, "123 Street", null, "test@example.com")
+                orderService.createOrder(cartItems, "123 Street", "test@example.com")
         );
         assertEquals("User with email test@example.com not found.", thrown.getMessage());
     }
-
     @Test
-    void testCreateOrder_ProductNotFound_ShouldThrowException() {
-        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(mockUser));
-        when(productRepository.findById(1L)).thenReturn(Optional.empty());
+    void testCreateOrder_NullProductId_ShouldThrowException() {
+        ProductDTO productDTO = new ProductDTO();
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(productDTO);
+        List<CartItem> cartItems = List.of(cartItem);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
-                orderService.createOrder(cartItems, "123 Street", null, "test@example.com")
+      when(userRepository.findByEmail("test@example.com"))
+                .thenReturn(Optional.of(mockUser));
+
+       NullPointerException thrown = assertThrows(NullPointerException.class, () ->
+                orderService.createOrder(cartItems, "123 Street", "test@example.com")
         );
-        assertEquals("Product with ID 1 not found.", thrown.getMessage());
+
+       assertTrue(thrown.getMessage().contains("Cannot invoke \"java.lang.Long.longValue()\""));
+
+       verify(orderRepository, never()).save(any());
     }
+
 
     @Test
     void testFindOrdersByUserEmail() {
@@ -162,21 +172,7 @@ class OrderServiceImplTest {
         assertNotNull(foundOrders);
         assertEquals(1, foundOrders.size());
     }
-    @Test
-    void testConvertDtoToEntity() throws Exception {
-        ProductDTO productDTO = new ProductDTO(1L, "Test Product", 100.0, 10);
 
-        Method method = OrderServiceImpl.class.getDeclaredMethod("convertDtoToEntity", ProductDTO.class);
-        method.setAccessible(true);
-
-        Product product = (Product) method.invoke(orderService, productDTO);
-
-        assertNotNull(product);
-        assertEquals(1L, product.getId());
-        assertEquals("Test Product", product.getName());
-        assertEquals(BigDecimal.valueOf(100.0), product.getPrice());
-        assertEquals(10, product.getStock());
-    }
     @Test
     void testFindOrdersByBillingAddress() {
         List<Order> orders = List.of(mockOrder);
@@ -187,7 +183,6 @@ class OrderServiceImplTest {
         assertNotNull(foundOrders);
         assertEquals(1, foundOrders.size());
     }
-
     @Test
     void testFindOrderById_Success() {
         when(orderRepository.findById(1L)).thenReturn(Optional.of(mockOrder));

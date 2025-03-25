@@ -56,9 +56,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(new Date());
         order.setOrderStatus(orderStatus.PENDING);
         order.setTotalPrice(calculateTotalPrice(cartItems));
-        order.setPaymentMethod(paymentMethod.CREDIT_CARD); // You should get this from the request
+        order.setPaymentMethod(paymentMethod.CREDIT_CARD);
         order.setShippingAddress(shippingAddress);
-        order.setBillingAddress(shippingAddress); // Set billing address
+        order.setBillingAddress(shippingAddress);
         order.setUser(user);
         order = orderRepository.save(order);
 
@@ -66,7 +66,6 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem cartItem : cartItems) {
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrder(order);
-            //Fetch product from db.
             Product product = new Product();
             product.setName(cartItem.getProduct().getName());
             product.setId(cartItem.getProduct().getProductId());
