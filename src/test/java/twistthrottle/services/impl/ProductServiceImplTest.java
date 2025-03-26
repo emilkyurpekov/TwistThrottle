@@ -1,4 +1,4 @@
-package twistthrottle;
+package twistthrottle.services.impl;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class ProductServiceTest {
+class ProductServiceImplTest {
 
     @MockBean
     private ProductRepository productRepository;
