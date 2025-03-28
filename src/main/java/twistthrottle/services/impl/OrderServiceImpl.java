@@ -80,7 +80,6 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderDetails(orderDetailsList);
 
-        // Clear the cart *after* successful order creation
         clearCart();
         return order;
     }
