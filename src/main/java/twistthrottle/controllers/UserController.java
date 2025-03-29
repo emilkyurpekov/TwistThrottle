@@ -2,6 +2,8 @@ package twistthrottle.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,29 +48,25 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/login";
     }
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
-        User user = userService.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            session.setAttribute("loggedInUser", user);
-            return "redirect:/home";
-        } else {
-            model.addAttribute("loginError", "Invalid username or password");
-            return "login";
-        }
-    }
-    @GetMapping("/profile")
-    public String showProfilePage(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("loggedInUser");
 
-        boolean isLoggedIn = user != null;
-        if (!isLoggedIn) {
+    @GetMapping("/profile")
+    public String showProfilePage(@AuthenticationPrincipal UserDetails userDetails, Model model) { // <-- Notice the change here
+
+        if (userDetails == null) {
             return "redirect:/login";
         }
+
+        String usernameOrEmail = userDetails.getUsername();
+
+        User user = userService.findByEmail(usernameOrEmail)
+                .orElseGet(() -> userService.findByUsername(usernameOrEmail));
+
+        if (user == null) {
+            System.err.println("Could not find full user details in DB for: " + usernameOrEmail);
+            return "redirect:/login?error=user_details_not_found";
+        }
+
         List<Order> userOrders = orderService.getOrdersByUser(user.getId());
-
-
-
 
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
@@ -78,11 +76,8 @@ public class UserController {
 
         model.addAttribute("orders", userOrders);
         model.addAttribute("user", userDTO);
-        model.addAttribute("isLoggedIn", isLoggedIn);
-
 
         return "profile";
     }
-
 }
 

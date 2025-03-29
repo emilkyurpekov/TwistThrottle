@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <link rel="stylesheet" href="/products.css"/>
     <meta charset="UTF-8">
@@ -15,13 +15,15 @@
         <li><a href="/home">Home</a></li>
         <li><a href="/profile">My Profile</a></li>
         <li><a href="/about">Privacy</a></li>
-        <li th:if="${isLoggedIn}">
-            <a href="/logout" >Logout</a>
-            <a href="/cart" >Cart</a>
+
+        <li sec:authorize="isAuthenticated()">
+            <a href="/logout">Logout</a>
+            <a href="/categories">Shop</a>
         </li>
-        <li th:unless="${isLoggedIn}">
-            <a href="/login" >Login</a>
-            <a href="/register" >Register</a>
+
+        <li sec:authorize="!isAuthenticated()">
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
         </li>
     </ul>
     <h1>Select a Category</h1>

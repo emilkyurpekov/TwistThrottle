@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <link rel="stylesheet" href="/profile.css">
     <script src="/js/motorcyclesList.js"></script>
@@ -55,12 +55,14 @@
         <li><a href="/home">Home</a></li>
         <li><a href="/profile">My Profile</a></li>
         <li><a href="/about">Privacy</a></li>
-        <li th:if="${isLoggedIn}">
+
+        <li sec:authorize="isAuthenticated()">
             <a href="/logout">Logout</a>
             <a href="/cart">Cart</a>
             <a href="/categories">Shop</a>
         </li>
-        <li th:unless="${isLoggedIn}">
+
+        <li sec:authorize="!isAuthenticated()">
             <a href="/login">Login</a>
             <a href="/register">Register</a>
         </li>
@@ -76,7 +78,7 @@
     </div>
 
     <div id="addMotorcycleForm" style="display:none;">
-        <form action="/addMotorcycle" method="POST">
+        <form th:action="@{/addMotorcycle}" method="POST">
             <label for="make">Make:</label>
             <input type="text" id="make" name="make" required>
 
