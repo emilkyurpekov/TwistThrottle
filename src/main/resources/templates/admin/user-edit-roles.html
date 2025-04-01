@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Edit User Roles</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .form-container { max-width: 500px; margin-top: 20px; border: 1px solid #ccc; padding: 20px; border-radius: 5px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        button { padding: 8px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .role-checkbox { margin-right: 15px; display: inline-block;}
+        nav { background-color: #000; padding: 10px 0; margin-bottom: 20px; }
+        nav ul { list-style-type: none; padding: 0; margin: 0; text-align: center; }
+        nav ul li { display: inline; margin-right: 15px; }
+        nav ul li a { color: white; text-decoration: none; padding: 14px 16px; }
+        nav ul li a:hover { background-color: #575757; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/profile">My Profile</a></li>
+        <li><a th:href="@{/admin/users}">Manage Users</a></li> <li sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+
+<h1>Edit Roles for User: <span th:text="${user.username}">Username</span></h1>
+
+<div class="form-container">
+    <form th:action="@{/admin/users/{id}/roles(id=${user.id})}" method="post">
+        <div class="form-group">
+            <label>Roles:</label>
+            <div>
+                <div th:each="role : ${allRoles}" class="role-checkbox">
+                    <input type="checkbox"
+                           th:id="${'role-' + role.name()}"
+                           name="roles" th:value="${role.name()}" th:checked="${userRoles.contains(role.name())}" /> <label th:for="${'role-' + role.name()}" th:text="${role.name()}">ROLE_NAME</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">Save Roles</button>
+    </form>
+</div>
+
+<p style="margin-top: 20px;">
+    <a th:href="@{/admin/users}">Back to User List</a>
+</p>
+
+</body>
+</html>
