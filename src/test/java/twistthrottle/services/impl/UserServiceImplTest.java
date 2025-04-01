@@ -131,7 +131,7 @@ class UserServiceImplTest {
     @Test
     void existsByUsername_WhenUsernameExists_ShouldReturnTrue() {
         when(userRepository.existsByUsername(username)).thenReturn(true);
-
+//
         Boolean result = userService.existsByUsername(username);
 
         assertTrue(result);
