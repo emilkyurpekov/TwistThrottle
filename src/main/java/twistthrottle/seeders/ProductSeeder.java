@@ -1,6 +1,7 @@
 package twistthrottle.seeders;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.Product;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Component
+@Order(2)
 public class ProductSeeder implements CommandLineRunner {
 
     private final ProductRepository productRepository;

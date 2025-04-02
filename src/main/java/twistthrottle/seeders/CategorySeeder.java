@@ -1,12 +1,14 @@
 package twistthrottle.seeders;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import twistthrottle.models.entities.Category;
 import twistthrottle.models.entities.enums.categoryType;
 import twistthrottle.repositories.CategoryRepository;
 
 @Component
+@Order(1)
 public class CategorySeeder implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
