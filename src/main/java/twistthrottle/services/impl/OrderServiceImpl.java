@@ -13,6 +13,7 @@ import twistthrottle.models.entities.enums.orderStatus;
 import twistthrottle.models.entities.enums.paymentMethod;
 import twistthrottle.repositories.OrderDetailsRepository;
 import twistthrottle.repositories.OrderRepository;
+import twistthrottle.repositories.ProductRepository;
 import twistthrottle.repositories.UserRepository;
 import twistthrottle.services.OrderService;
 
@@ -28,16 +29,21 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailsRepository;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+    private  final ProductServiceImpl productService;
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository, OrderDetailsRepository orderDetailsRepository,
-                            UserRepository userRepository) {
+                            UserRepository userRepository, ProductRepository productRepository, ProductServiceImpl productService) {
         this.orderRepository = orderRepository;
         this.orderDetailsRepository = orderDetailsRepository;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
+        this.productService = productService;
     }
+
 
     @Override
     @Transactional
@@ -52,6 +58,18 @@ public class OrderServiceImpl implements OrderService {
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
         User user = userOptional.orElseThrow(() -> new IllegalArgumentException("User with email " + userEmail + " not found."));
 
+
+        for (CartItem item : cartItems) {
+            Long preCheckProductId = item.getProduct().getProductId();
+            int preCheckQuantity = item.getQuantity();
+            Product product = productRepository.findById(preCheckProductId) //
+                    .orElseThrow(() -> new RuntimeException("Product with ID " + preCheckProductId + " not found during pre-check."));
+            if (product.getStock() < preCheckQuantity) { //
+                throw new IllegalStateException("Insufficient stock for product: " + product.getName() + " (ID: " + preCheckProductId + "). Requested: " + preCheckQuantity + ", Available: " + product.getStock());
+            }
+        }
+
+
         Order order = new Order();
         order.setOrderDate(new Date());
         order.setOrderStatus(orderStatus.PENDING);
@@ -64,14 +82,39 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
+
+            Long productId = cartItem.getProduct().getProductId();
+            int quantityOrdered = cartItem.getQuantity();
+
+            try {
+                Product productToUpdate = productRepository.findById(productId)
+                        .orElseThrow(() -> new RuntimeException("Product with ID " + productId + " not found during order processing."));
+
+                int currentStock = productToUpdate.getStock();
+                if (currentStock < quantityOrdered) {
+
+                    throw new IllegalStateException("Insufficient stock detected during final update for product: " + productToUpdate.getName() + " (ID: " + productId + ").");
+                }
+
+                int newStock = currentStock - quantityOrdered;
+
+                productService.updateProductStock(productId, newStock);
+                System.out.println("Stock updated for product ID " + productId + ". New stock: " + newStock);
+
+
+            } catch (Exception e) {
+
+                throw new RuntimeException("Failed to process stock update for product ID: " + productId + ". Order creation rolled back.", e);
+            }
+
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrder(order);
-            Product product = new Product();
-            product.setName(cartItem.getProduct().getName());
-            product.setId(cartItem.getProduct().getProductId());
-            product.setPrice(BigDecimal.valueOf(cartItem.getPrice()));
-            orderDetails.setProduct(product);
-            orderDetails.setQuantity(cartItem.getQuantity());
+
+            Product productReference = new Product();
+            productReference.setId(productId);
+
+            orderDetails.setProduct(productReference);
+            orderDetails.setQuantity(quantityOrdered);
             orderDetails.setUnitPrice(BigDecimal.valueOf(cartItem.getPrice()));
             orderDetailsList.add(orderDetails);
         }
@@ -83,6 +126,7 @@ public class OrderServiceImpl implements OrderService {
         clearCart();
         return order;
     }
+
     private double calculateTotalPrice(List<CartItem> cartItems) {
         double total = 0;
         for (CartItem item : cartItems) {
