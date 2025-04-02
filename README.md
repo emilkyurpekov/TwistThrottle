@@ -5,6 +5,8 @@ Welcome to my first web project
 
 This is a simple project for my final exam and it is a shop for motorcycle parts
 # **Key Features:**
+1. Creating a profile and adding motorcycles that you own or owned in the profile
+2. Adding products in a cart 
 To run the application, you need to set your MySQL username and password in the application properties
 
 All tables should be created empty except the tables for users the categories and the products in it. There should be 3 categories with 3 products in each
