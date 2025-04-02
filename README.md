@@ -9,8 +9,9 @@ All tables should be created empty except the tables for users the categories an
 Also since the functionality for the cart is in a seperate project named cart-service which is also a Spring project you need to run the cart-service project first in order to either add, remove, update the cart or complete an order
 
 After running the project successfully you will have 2 users:
+
 1 Admin user:
-Email:admin@twistthrottle.com"
+Email:admin@twistthrottle.com
 Password:password
 2 Normal User:
 Email:user@twistthrottle.com
