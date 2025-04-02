@@ -13,6 +13,7 @@ After running the project successfully you will have 2 users:
 1 Admin user:
 Email:admin@twistthrottle.com
 Password:password
+
 2 Normal User:
 Email:user@twistthrottle.com
 Passowrd:password
