@@ -14,19 +14,25 @@
     </div>
     <nav>
         <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/profile">My Profile</a></li>
-            <li><a href="/about">Privacy</a></li>
+            <li><a th:href="@{/home}">Home</a></li>
+            <li><a th:href="@{/profile}">My Profile</a></li>
+            <li><a th:href="@{/about}">Privacy</a></li>
+            <li><a th:href="@{articles/articles}">Articles</a></li>
+
 
             <li sec:authorize="isAuthenticated()">
-                <a href="/logout">Logout</a>
-                <a href="/cart">Cart</a>
-                <a href="/categories">Shop</a>
+                <a th:href="@{/logout}">Logout</a>
+                <a th:href="@{/cart}">Cart</a>
+                <a th:href="@{/categories}">Shop</a>
             </li>
 
             <li sec:authorize="!isAuthenticated()">
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
+                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/register}">Register</a>
+            </li>
+
+            <li sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/admin/users}">Manage Users</a>
             </li>
         </ul>
     </nav>
