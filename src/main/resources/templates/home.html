@@ -17,8 +17,7 @@
             <li><a th:href="@{/home}">Home</a></li>
             <li><a th:href="@{/profile}">My Profile</a></li>
             <li><a th:href="@{/about}">Privacy</a></li>
-            <li><a th:href="@{articles/articles}">Articles</a></li>
-
+            <li><a th:href="@{/articles}">Articles</a></li>
 
             <li sec:authorize="isAuthenticated()">
                 <a th:href="@{/logout}">Logout</a>

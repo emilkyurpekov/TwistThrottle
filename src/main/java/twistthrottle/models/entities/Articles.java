@@ -19,6 +19,8 @@ public class Articles extends BaseEntity {
     @Column(nullable = false)
     private String title;
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String content;
+    @Column(nullable = false, unique = true)
+    private String slug;
 }

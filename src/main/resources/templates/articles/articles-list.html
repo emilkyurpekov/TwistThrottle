@@ -4,30 +4,27 @@
     <meta charset="UTF-8">
     <title>TwistThrottle - Articles</title>
     <link rel="stylesheet" href="/home.css"/> <style>
-    .article-container {
+    .article-list-container {
         width: 80%;
         margin: 20px auto;
         padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-radius: 8px;
+        text-align: center;
     }
-    .article {
-        margin-bottom: 30px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #eee;
+    .article-button {
+        display: inline-block;
+        background-color: #000;
+        color: white;
+        padding: 15px 30px;
+        margin: 10px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1.1em;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
-    .article:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-    }
-    .article h2 {
-        color: #333;
-        margin-top: 0;
-    }
-    .article p {
-        color: #555;
-        line-height: 1.6;
+    .article-button:hover {
+        background-color: #575757;
     }
     .page-title {
         text-align: center;
@@ -50,7 +47,6 @@
         <li><a th:href="@{/about}">Privacy</a></li>
         <li><a th:href="@{/articles}">Articles</a></li>
 
-
         <li sec:authorize="isAuthenticated()">
             <a th:href="@{/logout}">Logout</a>
             <a th:href="@{/cart}">Cart</a>
@@ -68,16 +64,17 @@
     </ul>
 </nav>
 
-<div class="article-container">
-    <h1 class="page-title">Articles</h1>
+<div class="article-list-container">
+    <h1 class="page-title">Read Our Articles</h1>
 
     <div th:if="${articles.isEmpty()}">
-        <p>No articles found.</p>
+        <p>No articles available at the moment.</p>
     </div>
 
-    <div th:unless="${articles.isEmpty()}" th:each="article : ${articles}" class="article">
-        <h2 th:text="${article.title}">Article Title</h2>
-        <p th:text="${article.content}">Article content goes here...</p>
+    <div th:unless="${articles.isEmpty()}" th:each="article : ${articles}">
+        <a th:href="@{/articles/{slug}(slug=${article.slug})}" class="article-button" th:text="${article.title}">
+            Article Title
+        </a>
     </div>
 </div>
 

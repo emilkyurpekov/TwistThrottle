@@ -7,6 +7,7 @@ import twistthrottle.repositories.ArticleRepository;
 import twistthrottle.services.ArticleService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -20,6 +21,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Articles> findAllArticles() {
         return articleRepository.findAll();
+    }
+    @Override
+    public Optional<Articles> findBySlug(String slug) {
+        return articleRepository.findBySlug(slug);
     }
 }
 

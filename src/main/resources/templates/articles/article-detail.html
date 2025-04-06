@@ -2,38 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>TwistThrottle - Articles</title>
+    <title th:text="${article.title} + ' - TwistThrottle Articles'">Article Detail</title>
     <link rel="stylesheet" href="/home.css"/> <style>
     .article-container {
         width: 80%;
+        max-width: 900px; /* Max width for readability */
         margin: 20px auto;
-        padding: 20px;
+        padding: 30px;
         background-color: #fff;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         border-radius: 8px;
     }
-    .article {
-        margin-bottom: 30px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #eee;
-    }
-    .article:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-    }
-    .article h2 {
+    .article-title {
         color: #333;
         margin-top: 0;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
     }
-    .article p {
-        color: #555;
-        line-height: 1.6;
+    .article-content {
+        color: #444;
+        line-height: 1.7; /* Improve readability */
+        white-space: pre-wrap; /* Respect newlines in the content */
+        font-size: 1.1em;
     }
-    .page-title {
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 30px;
-        color: #333;
+    .back-link {
+        display: block; /* Make it a block element */
+        margin-top: 30px;
+        text-align: center; /* Center the link */
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+    }
+    .back-link:hover {
+        text-decoration: underline;
     }
 </style>
 </head>
@@ -49,7 +51,6 @@
         <li><a th:href="@{/profile}">My Profile</a></li>
         <li><a th:href="@{/about}">Privacy</a></li>
         <li><a th:href="@{/articles}">Articles</a></li>
-
 
         <li sec:authorize="isAuthenticated()">
             <a th:href="@{/logout}">Logout</a>
@@ -69,16 +70,10 @@
 </nav>
 
 <div class="article-container">
-    <h1 class="page-title">Articles</h1>
+    <h1 class="article-title" th:text="${article.title}">Article Title</h1>
+    <p class="article-content" th:text="${article.content}">Article content goes here...</p>
 
-    <div th:if="${articles.isEmpty()}">
-        <p>No articles found.</p>
-    </div>
-
-    <div th:unless="${articles.isEmpty()}" th:each="article : ${articles}" class="article">
-        <h2 th:text="${article.title}">Article Title</h2>
-        <p th:text="${article.content}">Article content goes here...</p>
-    </div>
+    <a th:href="@{/articles}" class="back-link">← Back to Articles</a>
 </div>
 
 </body>
