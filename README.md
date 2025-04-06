@@ -33,3 +33,5 @@ Spring Web, JPA, MySQL Database, Lombok, Rest Services, Mapstruct, JavaScript
 ![image](https://github.com/user-attachments/assets/b9080a3f-2944-4540-bc54-10ebd205ef10)
 ![image](https://github.com/user-attachments/assets/03dd4919-2f87-4342-aed2-c778bb9c0546)
 ![image](https://github.com/user-attachments/assets/bf87cfce-96a7-4641-87e6-16b613e1acf9)
+![image](https://github.com/user-attachments/assets/6a0918e6-d7cf-41ac-ba7a-2f9398df3b43)
+
