@@ -8,8 +8,5 @@ import twistthrottle.models.entities.User;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
   UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
   UserDTO userToUserDTO(User user);
-
-
 }
