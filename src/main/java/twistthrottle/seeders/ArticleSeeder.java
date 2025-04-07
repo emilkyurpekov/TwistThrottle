@@ -57,9 +57,6 @@ public class ArticleSeeder implements CommandLineRunner {
 
 
             articleRepository.saveAll(List.of(article1, article2, article3));
-            System.out.println("Detailed articles seeded successfully.");
-        } else {
-            System.out.println("Articles already exist. Skipping seeding.");
         }
     }
 }

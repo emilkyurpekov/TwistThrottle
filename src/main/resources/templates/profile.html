@@ -131,15 +131,12 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Date</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                </tr>
+                    <th>Total</th> <th>Status</th> </tr>
                 </thead>
                 <tbody>
                 <tr th:each="order : ${orders}">
                     <td th:text="${order.id}"></td>
-                    <td th:text="${#dates.format(order.orderDate, 'dd MMM yyyy')}"></td>
-                </tr>
+                    <td th:text="${#dates.format(order.orderDate, 'dd MMM yyyy')}"></td> <td th:text="'$' + ${#numbers.formatDecimal(order.totalPrice, 1, 2)}"></td> <td th:text="${order.orderStatus}"></td> </tr>
                 </tbody>
             </table>
         </div>

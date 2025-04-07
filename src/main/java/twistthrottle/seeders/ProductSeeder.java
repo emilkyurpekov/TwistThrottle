@@ -98,13 +98,7 @@ public class ProductSeeder implements CommandLineRunner {
             product9.setStock(20);
             product9.setCategory(engineComponents);
 
-
-
             productRepository.saveAll(List.of(product1, product2, product3,product4,product5,product6,product7,product8,product9));
-
-            System.out.println("Products have been seeded!");
-        }else {
-            System.out.println("Products already exist. Skipping seeding.");
         }
     }
 }
