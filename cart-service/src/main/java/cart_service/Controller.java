@@ -22,13 +22,11 @@ public class Controller {
         cart.add(new CartItem(product, price, quantity));
         return "Product added!";
     }
-
     @DeleteMapping("/remove/{productId}")
     public String removeFromCart(@PathVariable Long productId) {
         cart.removeIf(item -> item.getProduct().getProductId().equals(productId));
         return "Product removed!";
     }
-
     @PutMapping("/update")
     public ResponseEntity<String> updateCartItem(@RequestParam Long productId, @RequestParam int quantity) {
         if (quantity <= 0) {
@@ -52,7 +50,6 @@ public class Controller {
         if (userEmail == null || userEmail.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("User email is required.");
         }
-
         return ResponseEntity.ok("Order confirmed for user " + userEmail + " with shipping to " + shippingAddress);
     }
     @PostMapping("/clear")

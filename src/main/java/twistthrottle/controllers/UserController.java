@@ -1,6 +1,5 @@
 package twistthrottle.controllers;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import twistthrottle.dtos.UserDTO;
+import twistthrottle.mappers.UserMapper;
 import twistthrottle.models.entities.Order;
 import twistthrottle.models.entities.User;
 import twistthrottle.services.impl.MotorcycleServiceImpl;
@@ -25,11 +24,13 @@ public class UserController {
     private final UserServiceImpl userService;
     private final MotorcycleServiceImpl motorcycleService;
     private final OrderServiceImpl orderService;
-    public UserController(UserServiceImpl userService, MotorcycleServiceImpl motorcycleService, OrderServiceImpl orderService) {
+    private final UserMapper userMapper;
+    public UserController(UserServiceImpl userService, MotorcycleServiceImpl motorcycleService, OrderServiceImpl orderService, UserMapper userMapper) {
         this.userService = userService;
 
         this.motorcycleService = motorcycleService;
         this.orderService = orderService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/register")
@@ -50,14 +51,12 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String showProfilePage(@AuthenticationPrincipal UserDetails userDetails, Model model) { // <-- Notice the change here
-
+    public String showProfilePage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         if (userDetails == null) {
             return "redirect:/login";
         }
 
         String usernameOrEmail = userDetails.getUsername();
-
         User user = userService.findByEmail(usernameOrEmail)
                 .orElseGet(() -> userService.findByUsername(usernameOrEmail));
 
@@ -68,11 +67,9 @@ public class UserController {
 
         List<Order> userOrders = orderService.getOrdersByUser(user.getId());
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(user.getUsername());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
+
+        UserDTO userDTO = userMapper.userToUserDTO(user);
+
 
         model.addAttribute("orders", userOrders);
         model.addAttribute("user", userDTO);
