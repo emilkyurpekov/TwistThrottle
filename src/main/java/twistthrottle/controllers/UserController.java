@@ -1,14 +1,17 @@
 package twistthrottle.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import twistthrottle.dtos.UserDTO;
+import twistthrottle.dtos.UserRegistrationDTO;
 import twistthrottle.mappers.UserMapper;
 import twistthrottle.models.entities.Order;
 import twistthrottle.models.entities.User;
@@ -33,21 +36,42 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping("/register")
+    @GetMapping("/register") // Show form
     public String showRegistrationForm(Model model) {
-
-        model.addAttribute("user", new User());
+        // Use the DTO for the form backing object
+        model.addAttribute("userRegData", new UserRegistrationDTO());
         return "register";
     }
 
-    @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, Model model) {
-        if (userService.existsByEmail(user.getEmail())) {
-            model.addAttribute("emailExists", "An account with this email already exists.");
+    @PostMapping("/register") // Process form
+    public String registerUser(
+            @Valid @ModelAttribute("userRegData") UserRegistrationDTO userRegData,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+
             return "register";
         }
-        userService.saveUser(user);
-        return "redirect:/login";
+
+        if (userService.existsByEmail(userRegData.getEmail())) {
+            bindingResult.rejectValue("email", "error.userRegData", "An account with this email already exists.");
+        }
+        if (userService.existsByUsername(userRegData.getUsername())) {
+            bindingResult.rejectValue("username", "error.userRegData", "Username already exists.");
+            return "register";
+        }
+
+        User newUser = new User();
+        newUser.setFirstName(userRegData.getFirstName());
+        newUser.setLastName(userRegData.getLastName());
+        newUser.setUsername(userRegData.getUsername());
+        newUser.setEmail(userRegData.getEmail());
+        newUser.setPassword(userRegData.getPassword());
+
+        userService.saveUser(newUser);
+
+        return "redirect:/login?registrationSuccess";
     }
 
     @GetMapping("/profile")
@@ -64,12 +88,9 @@ public class UserController {
             System.err.println("Could not find full user details in DB for: " + usernameOrEmail);
             return "redirect:/login?error=user_details_not_found";
         }
-
         List<Order> userOrders = orderService.getOrdersByUser(user.getId());
 
-
         UserDTO userDTO = userMapper.userToUserDTO(user);
-
 
         model.addAttribute("orders", userOrders);
         model.addAttribute("user", userDTO);
