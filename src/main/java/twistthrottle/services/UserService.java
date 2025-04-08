@@ -13,4 +13,6 @@ public interface UserService {
     Boolean existsByEmail(String email);
     User saveUserWithoutEncoding(User user);
     List<User> findAllUsers();
+    boolean changeUserPassword(String usernameOrEmail, String currentPassword, String newPassword);
+
 }

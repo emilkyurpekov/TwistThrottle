@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import twistthrottle.dtos.PasswordChangeDTO;
 import twistthrottle.dtos.UserDTO;
 import twistthrottle.dtos.UserRegistrationDTO;
 import twistthrottle.mappers.UserMapper;
@@ -96,6 +98,47 @@ public class UserController {
         model.addAttribute("user", userDTO);
 
         return "profile";
+    }
+    @GetMapping("/change-password")
+    public String showChangePasswordForm(Model model) {
+        model.addAttribute("passwordChangeDTO", new PasswordChangeDTO());
+        return "change-password";
+    }
+    @PostMapping("/change-password")
+    public String processChangePassword(
+            @Valid @ModelAttribute("passwordChangeDTO") PasswordChangeDTO passwordChangeDTO,
+            BindingResult bindingResult,
+            @AuthenticationPrincipal UserDetails userDetails,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "change-password";
+        }
+
+        if (!passwordChangeDTO.getNewPassword().equals(passwordChangeDTO.getConfirmNewPassword())) {
+            bindingResult.rejectValue("confirmNewPassword", "error.passwordChangeDTO", "New passwords do not match.");
+            return "change-password";
+        }
+
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+        String usernameOrEmail = userDetails.getUsername();
+
+        boolean passwordChanged = userService.changeUserPassword(
+                usernameOrEmail,
+                passwordChangeDTO.getCurrentPassword(),
+                passwordChangeDTO.getNewPassword()
+        );
+
+        if (passwordChanged) {
+            redirectAttributes.addFlashAttribute("successMessage", "Password changed successfully!");
+            return "redirect:/profile";
+        } else {
+            bindingResult.rejectValue("currentPassword", "error.passwordChangeDTO", "Incorrect current password.");
+            return "change-password";
+        }
     }
 }
 

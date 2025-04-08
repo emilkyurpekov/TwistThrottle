@@ -99,6 +99,27 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public boolean changeUserPassword(String usernameOrEmail, String currentPassword, String newPassword) {
+        User user = userRepository.findByEmail(usernameOrEmail)
+                .orElseGet(() -> userRepository.findByUsername(usernameOrEmail));
+
+        if (user == null) {
+
+            return false;
+        }
+
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return false;
+        }
+
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
+
     public void save(Motorcycle motorcycle) {
         motorcycleRepository.save(motorcycle);
     }
