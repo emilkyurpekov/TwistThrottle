@@ -62,9 +62,9 @@ public class OrderServiceImpl implements OrderService {
         for (CartItem item : cartItems) {
             Long preCheckProductId = item.getProduct().getProductId();
             int preCheckQuantity = item.getQuantity();
-            Product product = productRepository.findById(preCheckProductId) //
+            Product product = productRepository.findById(preCheckProductId)
                     .orElseThrow(() -> new RuntimeException("Product with ID " + preCheckProductId + " not found during pre-check."));
-            if (product.getStock() < preCheckQuantity) { //
+            if (product.getStock() < preCheckQuantity) {
                 throw new IllegalStateException("Insufficient stock for product: " + product.getName() + " (ID: " + preCheckProductId + "). Requested: " + preCheckQuantity + ", Available: " + product.getStock());
             }
         }
