@@ -36,8 +36,9 @@ public class OrderConfirmationController {
 
     @PostMapping("/orderConfirmation")
     public String showOrderConfirmation(@RequestParam("shippingAddress") String shippingAddress,
+                                        @RequestParam("cardNumber") String cardNumber,
                                         Model model,
-                                        @AuthenticationPrincipal UserDetails userDetails) { // <-- Use AuthenticationPrincipal
+                                        @AuthenticationPrincipal UserDetails userDetails){
 
         if (userDetails == null) {
             return "redirect:/login";
@@ -72,7 +73,7 @@ public class OrderConfirmationController {
         }
 
         try {
-            Order order = orderService.createOrder(cartItems, shippingAddress, loggedInUser.getEmail());
+            Order order = orderService.createOrder(cartItems,cardNumber, shippingAddress, loggedInUser.getEmail());
             model.addAttribute("order", order);
             model.addAttribute("message", "Order confirmed successfully! Your order number is: " + order.getId());
             model.addAttribute("user", loggedInUser);
