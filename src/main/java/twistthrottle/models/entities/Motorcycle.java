@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import twistthrottle.models.entities.enums.motorcycleType;
 
-@Entity
-@Table(name = "motorcycles")
+@Entity@Table(name = "motorcycles")
 @Getter
 @Setter
 @NoArgsConstructor

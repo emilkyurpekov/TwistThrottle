@@ -82,7 +82,7 @@ public class OrderConfirmationController {
             System.err.println("Error creating order for user " + loggedInUser.getEmail() + ": " + e.getMessage());
             model.addAttribute("message", "Error creating order: " + e.getMessage());
             model.addAttribute("user", loggedInUser);
-            return "error-page";
+            return "error";
         }
     }
 
