@@ -12,6 +12,6 @@ public interface OrderService {
     List<Order> findOrdersByBillingAddress(String billingAddress);
     Order findOrderById(Long orderId);
     public List<Order> getOrdersByUser(Long userId);
-    Order createOrder(List<CartItem> cartItems, String shippingAddress, String cardNumber, String userEmail);
+    Order createOrder(List<CartItem> cartItems, String shippingAddress, String cardNumber, String userEmail, String cookieHeader);
 
 }

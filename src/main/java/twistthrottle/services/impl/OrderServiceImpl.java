@@ -2,6 +2,9 @@ package twistthrottle.services.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import twistthrottle.dtos.CartItem;
@@ -16,6 +19,7 @@ import twistthrottle.repositories.OrderRepository;
 import twistthrottle.repositories.ProductRepository;
 import twistthrottle.repositories.UserRepository;
 import twistthrottle.services.OrderService;
+import twistthrottle.services.ProductService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,34 +34,31 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailsRepository orderDetailsRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
-    private  final ProductServiceImpl productService;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final ProductService productService;
+    private final RestTemplate restTemplate;
     private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, OrderDetailsRepository orderDetailsRepository,
-                            UserRepository userRepository, ProductRepository productRepository, ProductServiceImpl productService) {
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            OrderDetailsRepository orderDetailsRepository,
+                            UserRepository userRepository,
+                            ProductRepository productRepository,
+                            ProductService productService,
+                            RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
         this.orderDetailsRepository = orderDetailsRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.productService = productService;
+        this.restTemplate = restTemplate;
     }
-
 
     @Override
     @Transactional
-    public Order createOrder(List<CartItem> cartItems,String cardNumber, String shippingAddress, String userEmail) {
-        if (cartItems == null || cartItems.isEmpty()) {
-            throw new IllegalArgumentException("Cart items cannot be null or empty.");
-        }
-        if (shippingAddress == null || shippingAddress.trim().isEmpty()) {
-            throw new IllegalArgumentException("Shipping address cannot be null or empty.");
-        }
+    public Order createOrder(List<CartItem> cartItems, String shippingAddress, String cardNumber, String userEmail, String cookieHeader) {
 
         Optional<User> userOptional = userRepository.findByEmail(userEmail);
         User user = userOptional.orElseThrow(() -> new IllegalArgumentException("User with email " + userEmail + " not found."));
-
 
         for (CartItem item : cartItems) {
             Long preCheckProductId = item.getProduct().getProductId();
@@ -69,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
+        System.out.println("Received card number ending in: " + (cardNumber != null && cardNumber.length() > 4 ? cardNumber.substring(cardNumber.length() - 4) : "****"));
 
         Order order = new Order();
         order.setOrderDate(new Date());
@@ -78,41 +80,28 @@ public class OrderServiceImpl implements OrderService {
         order.setShippingAddress(shippingAddress);
         order.setBillingAddress(shippingAddress);
         order.setUser(user);
+
         order = orderRepository.save(order);
 
         List<OrderDetails> orderDetailsList = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
-
             Long productId = cartItem.getProduct().getProductId();
             int quantityOrdered = cartItem.getQuantity();
 
-            try {
-                Product productToUpdate = productRepository.findById(productId)
-                        .orElseThrow(() -> new RuntimeException("Product with ID " + productId + " not found during order processing."));
+            Product productToUpdate = productRepository.findById(productId)
+                    .orElseThrow(() -> new RuntimeException("Product with ID " + productId + " not found during order processing."));
 
-                int currentStock = productToUpdate.getStock();
-                if (currentStock < quantityOrdered) {
-
-                    throw new IllegalStateException("Insufficient stock detected during final update for product: " + productToUpdate.getName() + " (ID: " + productId + ").");
-                }
-
-                int newStock = currentStock - quantityOrdered;
-
-                productService.updateProductStock(productId, newStock);
-                System.out.println("Stock updated for product ID " + productId + ". New stock: " + newStock);
-
-
-            } catch (Exception e) {
-
-                throw new RuntimeException("Failed to process stock update for product ID: " + productId + ". Order creation rolled back.", e);
+            int currentStock = productToUpdate.getStock();
+            if (currentStock < quantityOrdered) {
+                throw new IllegalStateException("Insufficient stock detected during final update for product: " + productToUpdate.getName() + " (ID: " + productId + ").");
             }
+
+            int newStock = currentStock - quantityOrdered;
+            productService.updateProductStock(productId, newStock);
 
             OrderDetails orderDetails = new OrderDetails();
             orderDetails.setOrder(order);
-
-            Product productReference = new Product();
-            productReference.setId(productId);
-
+            Product productReference = productRepository.getReferenceById(productId);
             orderDetails.setProduct(productReference);
             orderDetails.setQuantity(quantityOrdered);
             orderDetails.setUnitPrice(BigDecimal.valueOf(cartItem.getPrice()));
@@ -121,53 +110,63 @@ public class OrderServiceImpl implements OrderService {
 
         orderDetailsRepository.saveAll(orderDetailsList);
 
-        order.setOrderDetails(orderDetailsList);
+        clearCartAfterOrder(cookieHeader);
 
-        clearCart();
         return order;
+    }
+
+    private void clearCartAfterOrder(String cookieHeader) {
+        HttpHeaders headers = new HttpHeaders();
+        if (cookieHeader != null) {
+            headers.set("Cookie", cookieHeader);
+        }
+        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+
+        try {
+            restTemplate.exchange(
+                    CART_SERVICE_URL + "/clear",
+                    HttpMethod.POST,
+                    requestEntity,
+                    String.class
+            );
+            System.out.println("Cart cleared successfully after order creation.");
+        } catch (Exception e) {
+            System.err.println("Warning: Failed to clear cart after order creation. Error: " + e.getMessage());
+        }
     }
 
     private double calculateTotalPrice(List<CartItem> cartItems) {
         double total = 0;
-        for (CartItem item : cartItems) {
-            total += item.getPrice() * item.getQuantity();
+        if (cartItems != null) {
+            for (CartItem item : cartItems) {
+                total += item.getPrice() * item.getQuantity();
+            }
         }
         return total;
     }
+
     @Override
     public List<Order> findOrdersByUserEmail(String email) {
         return orderRepository.findOrderByUserEmail(email);
     }
-
     @Override
     public List<Order> findOrdersByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
-
     @Override
     public List<Order> findOrdersByDateRange(Date startDate, Date endDate) {
-        return orderRepository.findByOrderDateBetween(startDate, endDate);
+        return orderRepository.findByOrderDateBetween(startDate,endDate);
     }
     @Override
     public List<Order> findOrdersByBillingAddress(String billingAddress){
         return orderRepository.findOrderByBillingAddressContaining(billingAddress);
     }
-
     @Override
-    public Order findOrderById(Long orderId) {
-        return orderRepository.findById(orderId).get();
+    public Order findOrderById(Long orderId){
+        return orderRepository.findById(orderId).orElse(null);
     }
-
     @Override
-    public List<Order> getOrdersByUser(Long userId) {
+    public List<Order> getOrdersByUser(Long userId){
         return orderRepository.findByUserId(userId);
-    }
-
-    private void clearCart() {
-        try {
-            restTemplate.postForEntity(CART_SERVICE_URL + "/clear", null, String.class);
-        } catch (Exception e) {
-            System.err.println("Error clearing cart: " + e.getMessage());
-        }
     }
 }
