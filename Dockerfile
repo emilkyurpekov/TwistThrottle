@@ -18,7 +18,7 @@ RUN ./mvnw dependency:go-offline
 COPY src ./src
 
 # Package the application using the wrapper (skip tests)
-# This will create the jar in /build/target/
+# This will create the war in /build/target/
 RUN ./mvnw package -Dmaven.test.skip=true
 
 # Stage 2: Create the final runtime image
@@ -27,12 +27,12 @@ FROM eclipse-temurin:17-jre-jammy
 # Set the working directory for the runtime stage
 WORKDIR /app
 
-# Copy the built JAR file from the builder stage
-# Make sure the JAR filename here matches what your build produces in Stage 1
-COPY --from=builder /build/target/TwistThrottle-0.0.1-SNAPSHOT.jar application.jar
+# Copy the built WAR file from the builder stage
+# Make sure the WAR filename here matches what your build produces in Stage 1
+COPY --from=builder /build/target/TwistThrottle-0.0.1-SNAPSHOT.war application.war
 
 # Expose the port the main application runs on (default 8080)
 EXPOSE 8080
 
 # Specify the command to run on container start
-ENTRYPOINT ["java", "-jar", "/app/application.jar"]
+ENTRYPOINT ["java", "-jar", "/app/application.war"]
