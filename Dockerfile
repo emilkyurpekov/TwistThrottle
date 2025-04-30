@@ -1,26 +1,25 @@
-# Stage 1: Build the application using Maven
+# Stage 1: Build the application using Maven Wrapper
 FROM eclipse-temurin:17-jdk-jammy as builder
 
 # Set the working directory for the build stage
 WORKDIR /build
 
-# Copy the pom.xml file first
-COPY pom.xml ./
+# Copy the Maven wrapper files first
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 
-# Download dependencies
-# Install Maven (needed in this builder stage)
-RUN apt-get update && apt-get install -y maven && mvn dependency:go-offline
+# Make the wrapper executable
+RUN chmod +x mvnw
+
+# Download dependencies using the wrapper
+RUN ./mvnw dependency:go-offline
 
 # Copy the rest of the application source code
-# This includes the 'src' directory and potentially other resources needed for the build
 COPY src ./src
-# If you have other necessary files/folders at the root needed for build, copy them too
-# e.g., COPY .mvn/ .mvn/
-# e.g., COPY mvnw ./
 
-# Package the application (skip tests)
+# Package the application using the wrapper (skip tests)
 # This will create the jar in /build/target/
-RUN mvn package -DskipTests
+RUN ./mvnw package -Dmaven.test.skip=true
 
 # Stage 2: Create the final runtime image
 FROM eclipse-temurin:17-jre-jammy
