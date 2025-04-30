@@ -2,6 +2,7 @@ package twistthrottle.services.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,7 +37,8 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final ProductService productService;
     private final RestTemplate restTemplate;
-    private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
+    @Value("${cart.service.url}")
+    private String cartServiceUrl;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -124,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
 
         try {
             restTemplate.exchange(
-                    CART_SERVICE_URL + "/clear",
+                    cartServiceUrl + "/clear",
                     HttpMethod.POST,
                     requestEntity,
                     String.class

@@ -2,6 +2,7 @@ package twistthrottle.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,7 +28,8 @@ import java.util.List;
 public class CartClientController {
 
     private final RestTemplate restTemplate;
-    private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
+    @Value("${cart.service.url}")
+    private String cartServiceUrl;
 
     @Autowired
     public CartClientController(RestTemplate restTemplate) {
@@ -53,7 +55,7 @@ public class CartClientController {
 
         HttpEntity<ProductDTO> requestEntity = new HttpEntity<>(product, headers);
 
-        String url = CART_SERVICE_URL + "/add?quantity=" + quantity;
+        String url = cartServiceUrl + "/add?quantity=" + quantity;
 
         try {
             ResponseEntity<String> response = restTemplate.exchange(
@@ -82,7 +84,7 @@ public class CartClientController {
 
         try {
             ResponseEntity<CartItem[]> response = restTemplate.exchange(
-                    CART_SERVICE_URL,
+                    cartServiceUrl,
                     HttpMethod.GET,
                     requestEntity,
                     CartItem[].class);
@@ -101,7 +103,6 @@ public class CartClientController {
     @PostMapping("/update")
     public String updateCartItem(@RequestParam Long productId,
                                  @RequestParam int quantity,
-                                 Model model,
                                  HttpServletRequest request) {
 
         if (quantity <= 0) {
@@ -115,7 +116,7 @@ public class CartClientController {
         }
         HttpEntity<?> updateRequestEntity = new HttpEntity<>(headers);
 
-        String updateUrl = CART_SERVICE_URL + "/update?productId=" + productId + "&quantity=" + quantity;
+        String updateUrl = cartServiceUrl + "/update?productId=" + productId + "&quantity=" + quantity;
 
         try {
             restTemplate.exchange(
@@ -146,7 +147,7 @@ public class CartClientController {
 
         try {
             restTemplate.exchange(
-                    CART_SERVICE_URL + "/remove/" + productId,
+                    cartServiceUrl + "/remove/" + productId,
                     HttpMethod.DELETE,
                     deleteRequestEntity,
                     String.class);
