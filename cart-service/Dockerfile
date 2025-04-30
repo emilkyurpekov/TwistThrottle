@@ -16,7 +16,8 @@ COPY src ./src
 
 # Package the application (skip tests)
 # This will create the jar in /build/target/
-RUN mvn package -DskipTests
+RUN mvn package -Dmaven.test.skip=true
+
 
 # Stage 2: Create the final runtime image
 FROM eclipse-temurin:17-jre-jammy
