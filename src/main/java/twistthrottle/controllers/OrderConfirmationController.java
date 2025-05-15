@@ -2,6 +2,7 @@ package twistthrottle.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,7 +30,8 @@ public class OrderConfirmationController {
     private final OrderService orderService;
     private final UserServiceImpl userService;
     private final RestTemplate restTemplate;
-    private static final String CART_SERVICE_URL = "http://localhost:8081/api/cart";
+    @Value("${cart.service.url}")
+    private String cartServiceUrl;
 
     @Autowired
     public OrderConfirmationController(OrderService orderService, UserServiceImpl userService, RestTemplate restTemplate) {
@@ -63,7 +65,7 @@ public class OrderConfirmationController {
         List<CartItem> cartItems = Collections.emptyList();
         try {
             ResponseEntity<CartItem[]> cartResponse = restTemplate.exchange(
-                    CART_SERVICE_URL,
+                    this.cartServiceUrl,
                     HttpMethod.GET,
                     requestEntity,
                     CartItem[].class);
