@@ -38,14 +38,14 @@ public class ProductSeeder implements CommandLineRunner {
             product1.setName("High-Performance Muffler");
             product1.setProductType(productType.PARTS);
             product1.setPrice(BigDecimal.valueOf(199.99));
-            product1.setStock(50);
+            product1.setStock(500);
             product1.setCategory(exhaustSystems);
 
             Product product2 = new Product();
             product2.setName("Turbocharger Kit");
             product2.setProductType(productType.PARTS);
             product2.setPrice(BigDecimal.valueOf(499.99));
-            product2.setStock(30);
+            product2.setStock(300);
             product2.setCategory(engineComponents);
 
             Product product3 = new Product();
@@ -59,14 +59,14 @@ public class ProductSeeder implements CommandLineRunner {
             product4.setName("Akrapovic Honda exhaust");
             product4.setProductType(productType.PARTS);
             product4.setPrice(BigDecimal.valueOf(1200.00));
-            product4.setStock(20);
+            product4.setStock(200);
             product4.setCategory(exhaustSystems);
 
             Product product5 = new Product();
             product5.setName("Shifter");
             product5.setProductType(productType.PARTS);
             product5.setPrice(BigDecimal.valueOf(300.00));
-            product5.setStock(50);
+            product5.setStock(500);
             product5.setCategory(accessories);
 
 
@@ -74,7 +74,7 @@ public class ProductSeeder implements CommandLineRunner {
             product6.setName("Clutch");
             product6.setProductType(productType.PARTS);
             product6.setPrice(BigDecimal.valueOf(400.00));
-            product6.setStock(50);
+            product6.setStock(500);
             product6.setCategory(accessories);
 
             Product product7 = new Product();
@@ -88,14 +88,14 @@ public class ProductSeeder implements CommandLineRunner {
             product8.setName("Spark plugs");
             product8.setProductType(productType.PARTS);
             product8.setPrice(BigDecimal.valueOf(20.00));
-            product8.setStock(20);
+            product8.setStock(200);
             product8.setCategory(engineComponents);
 
             Product product9 = new Product();
             product9.setName("Oil Filter");
             product9.setProductType(productType.PARTS);
             product9.setPrice(BigDecimal.valueOf(200.00));
-            product9.setStock(20);
+            product9.setStock(200);
             product9.setCategory(engineComponents);
 
             productRepository.saveAll(List.of(product1, product2, product3,product4,product5,product6,product7,product8,product9));
